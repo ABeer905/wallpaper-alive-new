@@ -1,0 +1,12 @@
+{
+  "name": "config_service",
+  "version": "1.0.0",
+  "description": "Menu configuration for wallpaper service.",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tree_industries",
+  "license": "ISC"
+}

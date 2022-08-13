@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../../static_global/bootstrap.min.css">
+        <link rel="stylesheet" href="../../static/style.css">
+        <style>body{background-color: transparent;}</style>
+    </head>
+    <body style="overflow:hidden">
+        <div class="modal fade" id="wallpaper-modal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content" style="background-color:var(--accent-dark)">
+                <div class="modal-header p-0 m-0">
+                  <img id="preview" src="" class="w-100 rounded-top" style="max-height:300px"/>
+                  <h5 class="modal-title position-absolute top-0 start-0" style="padding-left: 15px !important;">Set Wallpaper</h5>
+                  <button type="button" class="btn-close position-absolute top-0" style="right:15px;top:10px !important;" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="mb-3">
+                        <label class="form-label text-light" style="font-size:1,5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-display" viewBox="0 0 16 16">
+                                <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75c.167-.333.25-.833.25-1.5H2s-2 0-2-2V4zm1.398-.855a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145z"/>
+                            </svg>
+                            Displays
+                        </label>
+                        <select name="displays" class="form-select">
+                            <option selected>All Displays</option>
+                            <option>Display #1</option>
+                            <option>Display #2</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-light" style="font-size:1,5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-aspect-ratio" viewBox="0 0 16 16">
+                                <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5v-9zM1.5 3a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                                <path d="M2 4.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H3v2.5a.5.5 0 0 1-1 0v-3zm12 7a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H13V8.5a.5.5 0 0 1 1 0v3z"/>
+                            </svg>
+                            Image Fit
+                        </label>
+                        <select name="displays" class="form-select">
+                            <option selected value="fill">Fill</option>
+                            <option value="ratio">Fill + Preserve Ratio</option>
+                            <option vale="noresize">True Size</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label text-light" style="font-size:1,5rem;">
+                            <svg id="volume-full" name="vol" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-volume-up" viewBox="0 0 16 16">
+                                <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
+                                <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
+                                <path d="M10.025 8a4.486 4.486 0 0 1-1.318 3.182L8 10.475A3.489 3.489 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.486 4.486 0 0 1 10.025 8zM7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12V4zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11z"/>
+                            </svg>
+                            <svg id="volume-mid" class="d-none" name="vol" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-volume-down" viewBox="0 0 16 16">
+                                <path d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12V4zM6.312 6.39 8 5.04v5.92L6.312 9.61A.5.5 0 0 0 6 9.5H4v-3h2a.5.5 0 0 0 .312-.11zM12.025 8a4.486 4.486 0 0 1-1.318 3.182L10 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486 4.486 0 0 1 12.025 8z"/>
+                            </svg>
+                            <svg id="volume-none" class="d-none" name="vol" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-volume-mute" viewBox="0 0 16 16">
+                                <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04 4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04zm7.854.606a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0z"/>
+                            </svg>
+                            Volume: 
+                            <span id="vol-level">100</span>
+                        </label>
+                        <input id="volume" type="range" class="form-range" id="customRange1" min="0" max="100" value="100">
+                        <div class="form-text">Note: Video will still mute based off of your mute prefrences in settings.</div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <nav id="search-container" class="navbar navbar-expand-lg navbar-dark d-flex justify-content-center">
+            <div class="w-50 form-control d-flex" style="align-items: center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+                <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+            </div>
+        </nav>
+
+        <div id="wallpaper-container" class="d-flex justify-content-start flex-wrap px-3 pb-2" style="overflow-y:scroll">
+            <div class="wallpaper-item m-1 rounded" id="upload-file-style" >
+                <label for="upload-file" id="upload-file-style" class="btn btn-secondary w-100 h-100 pt-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
+                        <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14V3.5zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5V6zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7H1.633z"/>
+                    </svg>
+                    <label style="pointer-events:none">Upload File</label>
+                </label>
+                <input id="upload-file" type="file" class="d-none"
+                    accept="image/png, image/jpeg, image/apng, image/avif, image/gif, image/svg+xml, image/webp, video/mp4, video/webm, video/ogg"/>
+            </div>
+            <div class="wallpaper-item m-1 rounded"></div>
+            <div class="wallpaper-item m-1 rounded"></div>
+            <div class="wallpaper-item m-1 rounded"></div>
+            <div class="wallpaper-item m-1 rounded"></div>
+            <div class="wallpaper-item m-1 rounded"></div>
+            <div class="wallpaper-item m-1 rounded"></div>
+
+            <div class="wallpaper-item m-1 rounded"></div>
+            <div class="wallpaper-item m-1 rounded"></div>
+            <div class="wallpaper-item m-1 rounded"></div>
+            <div class="wallpaper-item m-1 rounded"></div>
+            <div class="wallpaper-item m-1 rounded"></div>
+
+            <div class="wallpaper-item m-1 rounded"></div><div class="wallpaper-item m-1 rounded"></div>
+
+        </div>
+
+        <div id="info-footer" class="container-fluid bg-dark p-3 position-fixed bottom-0">
+            <div class="d-flex">
+                <div class="container-fluid">
+                    <h3 class="text-light">Current Wallpaper: <span id="current-wallpaper">Default</span></h3>
+                </div>
+                <button class="btn btn-primary">Configure</button>
+            </div>
+            <div class="d-flex">
+                <div class="container-fluid">
+                    <label class="text-light">Start on Boot: 
+                        <span id="boot-status" class="text-danger dropdown-toggle" style="cursor:pointer" data-bs-toggle="dropdown">Disabled</span>
+                        <ul class="dropdown-menu">
+                            <li><a id="alt-option-on" class="dropdown-item text-success" href="#" onclick="setAutostart(true, true)">Enable</a></li>
+                            <li><a id="alt-option-off" class="dropdown-item text-danger d-none" href="#" onclick="setAutostart(false, true)">Disable</a></li>
+                        </ul>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <script src="../../../static_global/bootstrap.bundle.min.js"></script>
+        <script src="../../static/scripts/browse.js"></script>
+    </body>
+</html>

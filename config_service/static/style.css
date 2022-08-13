@@ -1,0 +1,51 @@
+:root{
+    --accent-dark: #303030;
+    --accent-light: #404040;
+    --brand-purple: #bb86fc;
+}
+
+.active{
+    color: var(--brand-purple) !important
+}
+
+.bs-brand{
+    background-color: var(--brand-purple) !important
+}
+
+.wallpaper-item{
+    width: 180px;
+    height: 150px;
+    background-color: red;
+}
+
+.wallpaper-item:hover{
+    box-shadow: 5px 5px rgba(0, 0, 0, .1);
+    transform: scale(1.05);
+}
+
+#search{
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+#upload-file-style{
+    background-color:var(--accent-dark);
+    border:none;
+    font-size:1.5rem;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #505050;
+    margin: 10px 0px 10px 0px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--bs-dark);
+}
