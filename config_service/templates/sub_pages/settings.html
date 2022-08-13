@@ -19,7 +19,7 @@
                     </svg>
                     Pause Behavior
                 </label>
-                <select class="form-select">
+                <select id="pause-options" class="form-select">
                     <option selected value="0" title="Video pauses when the screen is covered by a window.">On Screen Cover</option>
                     <option value="1" title="Video pauses on all monitors when the screen is covered by a window.">On Screen Cover (All Monitors)</option>
                     <option value="2" title="Video pauses when an application is open, even if it doesn't cover the window.">On Window Focus</option>
@@ -37,7 +37,7 @@
                     </svg>
                     Mute Behavior
                 </label>
-                <select class="form-select">
+                <select id="mute-options" class="form-select">
                     <option selected value="0" title="Audio mutes when an application is open or sound is played.">On Window Focus or Sound</option>
                     <option value="1" title="Audio mutes when an application is open.">On Window Focus</option>
                     <option value="2" title="Audio mutes when sound is played.">On Sound</option>
@@ -53,9 +53,11 @@
                     </svg>
                     Keyboard Shortcut
                 </label>
-                <input type="text" class="form-control" value="Ctrl+Alt+C"/>
+                <input id="shortcut" type="text" class="form-control" value="Ctrl+Alt+C"/>
                 <div class="form-text">Set a custom shortcut for opening the menu.</div>
             </div>
         </form>
+
+        <script src="../../static/scripts/settings.js"></script>
     </body>
 </html>

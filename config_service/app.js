@@ -11,7 +11,7 @@ const createWindow = async () => {
     const configuration = {
         save: save,
         displays: screen.getAllDisplays(),
-        primaryDisplayID: screen.getPrimaryDisplay().id
+        primaryDisplayID: screen.getPrimaryDisplay().id,
     }
     registerEventHandlers(configuration)
 
