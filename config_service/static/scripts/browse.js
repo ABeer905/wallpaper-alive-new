@@ -24,8 +24,17 @@ volume.oninput = (e) => {
     }
 }
 
-const displayConfig = (save) => {
-    setAutostart(save.autostart)
+const displayConfig = (data) => {
+    setAutostart(data.save.autostart)
+    data.displays.forEach((disp, i) => {
+        const option = document.createElement("option")
+        option.value = disp.id
+        option.innerText = `Display ${i+1}: ${disp.size.width}x${disp.size.height}, ${disp.displayFrequency}Hz`
+        document.getElementById("display-select").appendChild(option)
+    })
+    if(data.save.wallpapers.hasOwnProperty(data.primaryDisplayID)){
+        document.getElementById("current-wallpaper").innerText = data.save.wallpapers[data.primaryDisplayID].name
+    }
 }
 
 const setAutostart = (on, save) => {

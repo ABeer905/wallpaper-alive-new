@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron')
+const { app, BrowserWindow, ipcMain, screen, shell } = require('electron')
 const dataTypes = require('../static_global/dataTypes.json')
 const fs = require('fs')
 const path = require('path')
@@ -8,7 +8,12 @@ const validURLS = ["steam://store/2009120", "https://steamcommunity.com/app/2003
 
 const createWindow = async () => {
     const save = await loadSave()
-    registerEventHandlers(save)
+    const configuration = {
+        save: save,
+        displays: screen.getAllDisplays(),
+        primaryDisplayID: screen.getPrimaryDisplay().id
+    }
+    registerEventHandlers(configuration)
 
     const mainWindow = new BrowserWindow({
     width: 800,
@@ -22,7 +27,7 @@ const createWindow = async () => {
         } 
     })
 
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
     mainWindow.loadFile('templates/index.html')
 }
 
