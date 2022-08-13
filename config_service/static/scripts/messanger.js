@@ -6,8 +6,12 @@ window.addEventListener("message", e => {
             window.web.open(e.data.url)
             break
         case("config"):
-            const res = e.data.method == "get" ? save : window.config.save()
-            iframe.contentWindow.postMessage({type: "save", data: res})
+            if(e.data.method == "get"){
+                iframe.contentWindow.postMessage({type: "save", data: save})
+            }else{
+                save.save = e.data.body
+                window.config.save(e.data.body)
+            }
             break
     }
 })
