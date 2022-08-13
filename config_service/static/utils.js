@@ -1,7 +1,11 @@
 var save;
 (async () => save = await window.config.get())()
 
-const set_location = (link) => {
+const set_location = async (link) => {
+    if(document.getElementById('main-menu-frame').src.endsWith("settings.html")){
+        await alertUnsavedChanges()
+    }
+
     Array.from(document.getElementsByClassName("nav-link")).forEach((e) => e.classList.remove("active"))
     link.classList.add("active")
     document.getElementById('main-menu-frame').src = `sub_pages/${link.id}.html`

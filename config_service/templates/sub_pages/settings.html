@@ -6,6 +6,24 @@
         <style>body{background-color: transparent;}</style>
     </head>
     <body>
+        <div class="modal fade" id="unsaved-modal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content" style="background-color:var(--accent-dark)">
+                <div class="modal-header">
+                  <h5 class="modal-title text-danger">Warning!</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-light">
+                  You have unsaved changes. Would you like to save them?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="alertUnsavedChanges(resolve=true)">Don't Save</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="alertUnsavedChanges(resolve=true, save=true)">Save changes</button>
+                </div>
+              </div>
+            </div>
+        </div>
+
         <div class="d-flex justify-content-center mb-3">
             <h3 class="active">Settings</h3>
         </div>
@@ -58,6 +76,7 @@
             </div>
         </form>
 
+        <script src="../../../static_global/bootstrap.bundle.min.js"></script>
         <script src="../../static/scripts/settings.js"></script>
     </body>
 </html>

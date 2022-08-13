@@ -57,7 +57,6 @@ const setAutostart = (on, save) => {
 }
 
 const resize = () => {
-    console.log("resize")
     const occupied_space = document.getElementById("info-footer").getBoundingClientRect().height + document.getElementById("search-container").getBoundingClientRect().height
     const wallpapers = document.getElementById("wallpaper-container")
     wallpapers.style.height = `${window.innerHeight - occupied_space}px`
