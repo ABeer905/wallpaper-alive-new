@@ -21,12 +21,13 @@
 .wallpaper-item{
     width: 180px;
     height: 150px;
-    background-color: red;
+    background-color:var(--accent-dark);
 }
 
 .wallpaper-item:hover{
     box-shadow: 5px 5px rgba(0, 0, 0, .1);
     transform: scale(1.05);
+    cursor: pointer;
 }
 
 #search{
@@ -35,8 +36,7 @@
     box-shadow: none;
 }
 
-#upload-file-style{
-    background-color:var(--accent-dark);
+.static-wallpaper-item-label{
     border:none;
     font-size:1.5rem;
 }

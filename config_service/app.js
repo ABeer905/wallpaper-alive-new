@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 
 const savePath = path.join(path.join(__dirname, "..", ".config"))
-const validURLS = ["steam://store/2009120", "https://steamcommunity.com/app/2003310/discussions", "https://github.com/arbeers1/wallpaper-alive-new"]
+const validURLS = ["steam://store/2009120", "steam://url/SteamWorkshopPage/2009120", "https://steamcommunity.com/app/2003310/discussions", "https://github.com/arbeers1/wallpaper-alive-new"]
 
 const createSplash = () => {
     const splashWindow = new BrowserWindow({
