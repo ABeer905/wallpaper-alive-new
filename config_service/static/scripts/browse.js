@@ -9,6 +9,11 @@ window.onmessage = (e) => {
 fileUpload.oninput = (e) => {
     preview.src = fileUpload.files[0].path
     fileUpload.value = null
+    document.getElementById("display-select").children[0].selected = "selected"
+    document.getElementById("wallpaper-modal").dataset.mode = "add"
+    document.getElementById("object-fit").children[0].selected = "selected"
+    volume.value = "100"
+    document.getElementById("vol-level").innerText = "100"
     wallpaperModal.show()
 }
 
@@ -99,6 +104,26 @@ const appendWallpaper = (display, wallpaperFile, objectFit, volume) => {
 
 const nameFromFile = (file) => {
     return file.substring(file.lastIndexOf("/") + 1, file.lastIndexOf("."))
+}
+
+const editWallpaper = () => {
+    document.getElementById("wallpaper-modal").dataset.mode = "edit"
+    Array.from(document.getElementById("display-select").children).forEach(e => {
+        if(e.value == settings.primaryDisplayID) e.selected = "selected"
+    })
+    getSettingsForDisplay(settings.primaryDisplayID)
+    wallpaperModal.show()
+}
+
+const getSettingsForDisplay = (disp) => {
+    if(document.getElementById("wallpaper-modal").dataset.mode == "edit"){
+        Array.from(document.getElementById("object-fit").children).forEach(e => {
+            if(e.value == settings.save.wallpapers[disp].fit) e.selected = "selected"
+        })
+        preview.src = settings.save.wallpapers[disp].file
+        volume.value = settings.save.wallpapers[disp].volume
+        document.getElementById("vol-level").innerText = settings.save.wallpapers[disp].volume
+    }
 }
 
 const resize = () => {
