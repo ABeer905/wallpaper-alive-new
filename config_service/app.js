@@ -6,7 +6,23 @@ const path = require('path')
 const savePath = path.join(path.join(__dirname, "..", ".config"))
 const validURLS = ["steam://store/2009120", "https://steamcommunity.com/app/2003310/discussions"]
 
-const createWindow = async () => {
+const createSplash = () => {
+    const splashWindow = new BrowserWindow({
+        width: 400,
+        height: 200,
+        frame: false,
+        resizable: false,
+        show: false
+    })
+
+    splashWindow.loadFile('templates/splash.html')
+    splashWindow.once("ready-to-show", e => {
+        splashWindow.show()
+        createWindow(splashWindow)
+    })
+}
+
+const createWindow = async (splashWindow) => {
     const save = await loadSave()
     const configuration = {
         save: save,
@@ -16,23 +32,28 @@ const createWindow = async () => {
     registerEventHandlers(configuration)
 
     const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    minWidth: 800,
-    minHeight: 600,
-    title: "Wallpaper Alive",
-    autoHideMenuBar: true,
-    webPreferences: {
-        preload: path.join(__dirname, "static", "scripts", "preload.js")
+        width: 800,
+        height: 600,
+        minWidth: 800,
+        minHeight: 600,
+        show: false,
+        title: "Wallpaper Alive",
+        autoHideMenuBar: true,
+        webPreferences: {
+            preload: path.join(__dirname, "static", "scripts", "preload.js")
         } 
     })
 
     //mainWindow.webContents.openDevTools()
     mainWindow.loadFile('templates/index.html')
+    mainWindow.once("ready-to-show", e => {
+        splashWindow.close()
+        mainWindow.show()
+    })
 }
 
 app.enableSandbox()
-app.whenReady().then(() => createWindow())
+app.whenReady().then(() => createSplash())
 
 app.on('window-all-closed', () => {
     app.quit()
