@@ -1,5 +1,7 @@
 const wallpaperModal = new bootstrap.Modal(document.getElementById("wallpaper-modal"))
 const fileUpload = document.getElementById("upload-file")
+const image_preview = document.getElementById("preview-image")
+const video_preview = document.getElementById("preview-video")
 
 window.top.postMessage({type: 'config', method: 'get'})
 window.onmessage = (e) => {
@@ -7,8 +9,11 @@ window.onmessage = (e) => {
 }
 
 fileUpload.oninput = (e) => {
-    preview.src = fileUpload.files[0].path
+    const fileType = type(fileUpload.files[0].path)
+    document.getElementById(`preview-${fileType}`).src = fileUpload.files[0].path
     fileUpload.value = null
+    startPreview(fileType)
+
     document.getElementById("display-select").children[0].selected = "selected"
     document.getElementById("wallpaper-modal").dataset.mode = "add"
     document.getElementById("object-fit").children[0].selected = "selected"
@@ -66,11 +71,12 @@ const setAutostart = (on, save) => {
 
 const setWallpaper = () => {
     const displayType = document.getElementById("display-select").value
+    const file = image_preview.style.display == "none" ? video_preview.src : image_preview.src
     if(displayType == '0'){
         settings.displays.forEach(disp => {
             appendWallpaper(
                 disp.id,
-                preview.src,
+                file,
                 document.getElementById("object-fit").value,
                 document.getElementById("volume").value
             )
@@ -78,7 +84,7 @@ const setWallpaper = () => {
     }else{
         appendWallpaper(
             displayType,
-            preview.src,
+            file,
             document.getElementById("object-fit").value,
             document.getElementById("volume").value
         )
@@ -107,6 +113,25 @@ const nameFromFile = (file) => {
     return file.substring(file.lastIndexOf("/") + 1, file.lastIndexOf("."))
 }
 
+const type = (file) => {
+    file = file.toLowerCase()
+    if(file.endsWith(".mp4") || 
+       file.endsWith(".ogg") ||
+       file.endsWith(".webm")
+    )
+    {
+        return "video"
+    }
+    else if (file.endsWith(".html") || file.endsWith(".htm"))
+    {
+        return "script"
+    }
+    else
+    {
+        return "image"
+    }
+}
+
 const editWallpaper = () => {
     document.getElementById("wallpaper-modal").dataset.mode = "edit"
     Array.from(document.getElementById("display-select").children).forEach(e => {
@@ -121,11 +146,32 @@ const getSettingsForDisplay = (disp) => {
         Array.from(document.getElementById("object-fit").children).forEach(e => {
             if(e.value == settings.save.wallpapers[disp].fit) e.selected = "selected"
         })
-        preview.src = settings.save.wallpapers[disp].file
+        const fileType = type(settings.save.wallpapers[disp].file)
+        document.getElementById(`preview-${fileType}`).src = settings.save.wallpapers[disp].file
+        startPreview(fileType)
         volume.value = settings.save.wallpapers[disp].volume
         document.getElementById("vol-level").innerText = settings.save.wallpapers[disp].volume
     }
 }
+
+const startPreview = (fileType) => {
+    if(fileType == "video"){
+        image_preview.style.display = "none"
+        video_preview.style.display = ""
+        document.getElementById('vol-container').style.display = ""
+        video_preview.play()
+    }else if(fileType == "image"){
+        video_preview.style.display = "none"
+        image_preview.style.display = ""
+        document.getElementById('vol-container').style.display = "none"
+        video_preview.pause()
+    }
+}
+
+document.getElementById("wallpaper-modal").addEventListener("hidden.bs.modal", e => {
+    video_preview.src = ""
+    image_preview.src = ""
+})
 
 const resize = () => {
     const occupied_space = document.getElementById("info-footer").getBoundingClientRect().height + document.getElementById("search-container").getBoundingClientRect().height

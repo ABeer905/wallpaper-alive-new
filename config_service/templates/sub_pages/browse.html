@@ -13,7 +13,8 @@
             <div class="modal-dialog">
               <div class="modal-content" style="background-color:var(--accent-dark)">
                 <div class="modal-header p-0 m-0">
-                  <img id="preview" src="" class="w-100 rounded-top" style="max-height:300px"/>
+                  <img id="preview-image" src="" class="w-100 rounded-top preview" style="max-height:25vh;object-fit:cover;"/>
+                  <video id="preview-video" src="" class="w-100 rounded-top preview" style="max-height:25vh;object-fit:cover;" loop></video>
                   <h5 class="modal-title position-absolute top-0 start-0" style="padding-left: 15px !important;">Set Wallpaper</h5>
                   <button type="button" class="btn-close position-absolute top-0" style="right:15px;top:10px !important;" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -44,7 +45,7 @@
                             <option vale="noresize">True Size</option>
                         </select>
                     </div>
-                    <div>
+                    <div id="vol-container">
                         <label class="form-label text-light" style="font-size:1,5rem;">
                             <svg id="volume-full" name="vol" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-volume-up" viewBox="0 0 16 16">
                                 <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
