@@ -4,6 +4,12 @@
     --brand-purple: #bb86fc;
 }
 
+@media (min-width: 1000px){
+    .w-lg-50{
+        width: 50%;
+    }
+}
+
 .active{
     color: var(--brand-purple) !important
 }

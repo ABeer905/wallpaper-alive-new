@@ -41,32 +41,34 @@
             <h3 class="active">Steam Workshop Publisher</h3>
         </div>
         
-        <form class="mx-5">
-            <div class="mb-1">
-                <label class="form-label text-light">Title</label>
-                <input type="text" class="form-control" required/>
-            </div>
-            <div class="mb-1">
-                <label class="form-label text-light">Description</label>
-                <textarea class="form-control"></textarea>
-            </div>
-            <div class="mb-1">
-                <label class="form-label text-light">Tags</label>
-                <input id="tags-selected" type="text" class="form-control mb-1" readonly />
-                <btn class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#tagModal">Add Tags</btn>
-            </div>
-            <div class="mb-3">
-                <label class="form-label text-light">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
-                        <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14V3.5zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5V6zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7H1.633z"/>
-                    </svg>
-                    File
-                </label>
-                <input class="form-control" type="file" required/>
-            </div>
+        <div class="d-flex justify-content-center">
+            <form class="mx-5 w-lg-50 container-fluid">
+                <div class="mb-1">
+                    <label class="form-label text-light">Title</label>
+                    <input type="text" class="form-control" required/>
+                </div>
+                <div class="mb-1">
+                    <label class="form-label text-light">Description</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="mb-1">
+                    <label class="form-label text-light">Tags</label>
+                    <input id="tags-selected" type="text" class="form-control mb-1" readonly />
+                    <btn class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#tagModal">Add Tags</btn>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-light">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
+                            <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14V3.5zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5V6zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7H1.633z"/>
+                        </svg>
+                        File
+                    </label>
+                    <input class="form-control" type="file" required/>
+                </div>
 
-            <input type="submit" class="form-control btn btn-primary" value="Submit" />
-        </form>
+                <input type="submit" class="form-control btn btn-primary" value="Submit" />
+            </form>
+        </div>
 
         <script src="../../../static_global/bootstrap.bundle.min.js"></script>
         <script src="../../static/scripts/publish.js"></script>
