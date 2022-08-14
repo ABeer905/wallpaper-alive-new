@@ -3,7 +3,10 @@
     <head>
         <link rel="stylesheet" href="../../../static_global/bootstrap.min.css">
         <link rel="stylesheet" href="../../static/style.css">
-        <style>body{background-color: transparent;}</style>
+        <style>
+            body{background-color: transparent;}
+            .dropdown-item:hover{background-color: var(--accent-light);}
+        </style>
     </head>
     <body style="overflow:hidden">
         <div class="modal fade" id="wallpaper-modal" tabindex="-1" data-mode="add">
@@ -118,7 +121,7 @@
                 <div class="container-fluid">
                     <label class="text-light">Start on Boot: 
                         <span id="boot-status" class="text-danger dropdown-toggle" style="cursor:pointer" data-bs-toggle="dropdown">Disabled</span>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="background-color:var(--accent-dark)">
                             <li><a id="alt-option-on" class="dropdown-item text-success" href="#" onclick="setAutostart(true, true)">Enable</a></li>
                             <li><a id="alt-option-off" class="dropdown-item text-danger d-none" href="#" onclick="setAutostart(false, true)">Disable</a></li>
                         </ul>
