@@ -16,6 +16,12 @@ window.addEventListener("message", e => {
                 window.config.autostart(e.data.body)
             }
             break
+        case("workshop"):
+            if(e.data.method == "get"){
+                window.workshop.get().then(items => {
+                    iframe.contentWindow.postMessage({type: "workshop", data: items})
+                })
+            }
     }
 })
 

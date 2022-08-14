@@ -10,6 +10,12 @@
     }
 }
 
+@media (max-height: 650px){
+    #no-wallpapers{
+        margin-top: 2em
+    }
+}
+
 .active{
     color: var(--brand-purple) !important
 }

@@ -5,7 +5,8 @@ const video_preview = document.getElementById("preview-video")
 
 window.top.postMessage({type: 'config', method: 'get'})
 window.onmessage = (e) => {
-    if(e.data.type == "save") displayConfig(e.data.data)
+    if(e.data.type == "save") { displayConfig(e.data.data) }
+    else if(e.data.type == "workshop") { displayWorkshopItems(e.data.data) }
 }
 
 fileUpload.oninput = (e) => {
@@ -31,6 +32,12 @@ volume.oninput = (e) => {
         document.getElementById("volume-mid").classList.remove("d-none")
     }else{
         document.getElementById("volume-none").classList.remove("d-none")
+    }
+}
+
+const displayWorkshopItems = (items) => {
+    if(items.length == 0) {
+        document.getElementById("no-wallpapers").classList.remove("d-none")
     }
 }
 
@@ -180,7 +187,9 @@ document.getElementById("wallpaper-modal").addEventListener("hidden.bs.modal", e
 const resize = () => {
     const occupied_space = document.getElementById("info-footer").getBoundingClientRect().height + document.getElementById("search-container").getBoundingClientRect().height
     const wallpapers = document.getElementById("wallpaper-container")
+    const noWallpapers = document.getElementById("no-wallpapers")
     wallpapers.style.height = `${window.innerHeight - occupied_space}px`
+    noWallpapers.style.height = `${window.innerHeight - occupied_space}px`
 }
 
 window.addEventListener("resize", () => resize())

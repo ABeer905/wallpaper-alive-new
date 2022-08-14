@@ -9,3 +9,8 @@ contextBridge.exposeInMainWorld("config", {
     "save": (save) => ipcRenderer.invoke("writeSave", save),
     "autostart": (on) => ipcRenderer.invoke("autostart", on)
 })
+
+contextBridge.exposeInMainWorld("workshop", {
+    "get": () => ipcRenderer.invoke("getWorkshopItems"),
+    "submit": (item) => ipcRenderer.invoke("submit", item)
+})

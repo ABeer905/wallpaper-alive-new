@@ -98,4 +98,10 @@ const registerEventHandlers = (save) => {
             if(err) console.error(err)
         }) 
     }
+
+    /****************WORKSHOP API****************/
+    ipcMain.handle("getWorkshopItems", e => {
+        const content = []
+        content
+    })
 }
