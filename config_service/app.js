@@ -87,8 +87,15 @@ const registerEventHandlers = (save) => {
     ipcMain.handle("getSave", e => save)
     ipcMain.handle("writeSave", (e, saved_settings) => {
         save.save = saved_settings
-        fs.writeFile(savePath, JSON.stringify(saved_settings), err => {
-            if(err) console.error(err)
-        })
+        write()
     })
+    ipcMain.handle("autostart", (e, on) => {
+        save.save.autostart = on
+        write()
+    })
+    const write = () => {
+        fs.writeFile(savePath, JSON.stringify(save.save), err => {
+            if(err) console.error(err)
+        }) 
+    }
 }

@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld("web", {
 
 contextBridge.exposeInMainWorld("config", {
     "get": () => ipcRenderer.invoke("getSave"),
-    "save": (save) => ipcRenderer.invoke("writeSave", save)
+    "save": (save) => ipcRenderer.invoke("writeSave", save),
+    "autostart": (on) => ipcRenderer.invoke("autostart", on)
 })

@@ -11,6 +11,9 @@ window.addEventListener("message", e => {
             }else if(e.data.method == "write"){
                 save.save = e.data.body
                 window.config.save(e.data.body)
+            }else if(e.data.method == "boot"){
+                save.save.autostart = e.data.body
+                window.config.autostart(e.data.body)
             }
             break
     }

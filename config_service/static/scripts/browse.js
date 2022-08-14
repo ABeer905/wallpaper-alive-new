@@ -61,6 +61,7 @@ const setAutostart = (on, save) => {
         altOff.classList.add("d-none")
         altOn.classList.remove("d-none")
     }
+    if(save) window.top.postMessage({type: "config", method: "boot", body: on})
 }
 
 const setWallpaper = () => {
