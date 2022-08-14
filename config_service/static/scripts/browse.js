@@ -80,9 +80,9 @@ const setWallpaper = () => {
 }
 
 const appendWallpaper = (display, wallpaperFile, objectFit, volume) => {
-    console.log("Appending wallper")
     settings.save.wallpapers[display] = {
         file: wallpaperFile,
+        name: nameFromFile(wallpaperFile),
         fit: objectFit,
         volume: volume
     }
@@ -91,6 +91,10 @@ const appendWallpaper = (display, wallpaperFile, objectFit, volume) => {
         method: "write",
         body: settings.save
     })
+}
+
+const nameFromFile = (file) => {
+    return file.substring(file.lastIndexOf("/") + 1, file.lastIndexOf("."))
 }
 
 const resize = () => {

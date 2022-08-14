@@ -1,5 +1,8 @@
 var save;
-(async () => save = await window.config.get())()
+(async () => {
+    save = await window.config.get()
+    document.getElementById('main-menu-frame').src = "sub_pages/browse.html"
+})()
 
 const set_location = async (link) => {
     if(document.getElementById('main-menu-frame').src.endsWith("settings.html")){

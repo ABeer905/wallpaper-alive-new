@@ -44,11 +44,11 @@ const createWindow = async (splashWindow) => {
         } 
     })
 
-    //mainWindow.webContents.openDevTools()
     mainWindow.loadFile('templates/index.html')
     mainWindow.once("ready-to-show", e => {
         splashWindow.close()
         mainWindow.show()
+        //mainWindow.webContents.openDevTools()
     })
 }
 
