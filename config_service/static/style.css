@@ -35,6 +35,12 @@
     font-size:1.5rem;
 }
 
+#current-wallpaper-container{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 ::-webkit-scrollbar {
     width: 12px;
 }

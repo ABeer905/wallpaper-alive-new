@@ -112,22 +112,18 @@
         </div>
 
         <div id="info-footer" class="container-fluid bg-dark p-3 position-fixed bottom-0">
-            <div class="d-flex">
-                <div class="container-fluid">
-                    <h3 class="text-light">Current Wallpaper: <span id="current-wallpaper">Default</span></h3>
-                </div>
+            <div class="w-100 d-flex">
+                <h3 id="current-wallpaper-container" class="text-light flex-grow-1">Current Wallpaper: <span id="current-wallpaper">Default</span></h3>
                 <button class="btn btn-primary" onclick="editWallpaper()">Configure</button>
             </div>
-            <div class="d-flex">
-                <div class="container-fluid">
-                    <label class="text-light">Start on Boot: 
-                        <span id="boot-status" class="text-danger dropdown-toggle" style="cursor:pointer" data-bs-toggle="dropdown">Disabled</span>
-                        <ul class="dropdown-menu" style="background-color:var(--accent-dark)">
-                            <li><a id="alt-option-on" class="dropdown-item text-success" href="#" onclick="setAutostart(true, true)">Enable</a></li>
-                            <li><a id="alt-option-off" class="dropdown-item text-danger d-none" href="#" onclick="setAutostart(false, true)">Disable</a></li>
-                        </ul>
-                    </label>
-                </div>
+            <div>
+                <label class="text-light">Start on Boot: 
+                    <span id="boot-status" class="text-danger dropdown-toggle" style="cursor:pointer" data-bs-toggle="dropdown">Disabled</span>
+                    <ul class="dropdown-menu" style="background-color:var(--accent-dark)">
+                        <li><a id="alt-option-on" class="dropdown-item text-success" href="#" onclick="setAutostart(true, true)">Enable</a></li>
+                        <li><a id="alt-option-off" class="dropdown-item text-danger d-none" href="#" onclick="setAutostart(false, true)">Disable</a></li>
+                    </ul>
+                </label>
             </div>
         </div>
 
