@@ -161,12 +161,16 @@ const startPreview = (fileType) => {
         document.getElementById('vol-container').style.display = ""
         video_preview.play()
     }else if(fileType == "image"){
+        spinner.classList.add("d-none")
         video_preview.style.display = "none"
         image_preview.style.display = ""
         document.getElementById('vol-container').style.display = "none"
         video_preview.pause()
     }
 }
+
+video_preview.onloadstart = e => { spinner.classList.remove("d-none") }
+video_preview.oncanplay = e => { spinner.classList.add("d-none") }
 
 document.getElementById("wallpaper-modal").addEventListener("hidden.bs.modal", e => {
     video_preview.src = ""
