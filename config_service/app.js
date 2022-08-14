@@ -100,8 +100,8 @@ const registerEventHandlers = (save) => {
     }
 
     /****************WORKSHOP API****************/
-    ipcMain.handle("getWorkshopItems", e => {
+    ipcMain.handle("getWorkshopItems", async e => {
         const content = []
-        content
+        return content
     })
 }

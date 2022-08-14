@@ -3,7 +3,8 @@ const fileUpload = document.getElementById("upload-file")
 const image_preview = document.getElementById("preview-image")
 const video_preview = document.getElementById("preview-video")
 
-window.top.postMessage({type: 'config', method: 'get'})
+window.top.postMessage({type: 'config', method: "get"})
+window.top.postMessage({type: "workshop", method: "get"})
 window.onmessage = (e) => {
     if(e.data.type == "save") { displayConfig(e.data.data) }
     else if(e.data.type == "workshop") { displayWorkshopItems(e.data.data) }
@@ -39,6 +40,7 @@ const displayWorkshopItems = (items) => {
     if(items.length == 0) {
         document.getElementById("no-wallpapers").classList.remove("d-none")
     }
+    document.getElementById("wallpapers-loading").classList.add("d-none")
 }
 
 var settings;
@@ -187,9 +189,9 @@ document.getElementById("wallpaper-modal").addEventListener("hidden.bs.modal", e
 const resize = () => {
     const occupied_space = document.getElementById("info-footer").getBoundingClientRect().height + document.getElementById("search-container").getBoundingClientRect().height
     const wallpapers = document.getElementById("wallpaper-container")
-    const noWallpapers = document.getElementById("no-wallpapers")
+    const info = document.getElementById("wallpaper-info-container")
     wallpapers.style.height = `${window.innerHeight - occupied_space}px`
-    noWallpapers.style.height = `${window.innerHeight - occupied_space}px`
+    info.style.height = `${window.innerHeight - occupied_space}px`
 }
 
 window.addEventListener("resize", () => resize())

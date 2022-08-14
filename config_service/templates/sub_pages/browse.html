@@ -88,9 +88,16 @@
             </div>
         </nav>
 
-        <div id="no-wallpapers" class="d-none position-absolute w-100 d-flex flex-column justify-content-center align-items-center" style="pointer-events:none;">
-            <p class="text-light text-center mb-0">Your subscribed wallpapers will show here.</p>
-            <p class="text-light text-center">To get started, visit our <a href="#" style="pointer-events: initial;">Steam Workshop</a>.</p>
+        <div id="wallpaper-info-container" class="position-absolute w-100" style="pointer-events:none;">
+            <div class="position-absolute w-100 d-flex flex-column justify-content-center" style="bottom:3rem">
+                <div class="text-center">
+                    <div id="wallpapers-loading" class="spinner-border active text-center" role="status" style="width:3rem;height:3rem"></div>
+                </div>
+                <div id="no-wallpapers" class="d-none">
+                    <p class="text-light text-center mb-0">Your subscribed wallpapers will show here.</p>
+                    <p class="text-light text-center">To get started, visit our <a href="#" style="pointer-events: initial;">Steam Workshop</a>.</p>
+                </div>
+            </div>
         </div>
 
         <div id="wallpaper-container" class="d-flex justify-content-start flex-wrap px-3 pb-2" style="overflow-y:scroll">
