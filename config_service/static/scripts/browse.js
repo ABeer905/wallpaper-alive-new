@@ -80,9 +80,13 @@ const setWallpaper = () => {
 }
 
 const appendWallpaper = (display, wallpaperFile, objectFit, volume) => {
+    let name = nameFromFile(wallpaperFile)
+    if(display == settings.primaryDisplayID){
+        document.getElementById("current-wallpaper").innerText = name
+    }
     settings.save.wallpapers[display] = {
         file: wallpaperFile,
-        name: nameFromFile(wallpaperFile),
+        name: name,
         fit: objectFit,
         volume: volume
     }
