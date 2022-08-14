@@ -24,7 +24,9 @@ volume.oninput = (e) => {
     }
 }
 
+var settings;
 const displayConfig = (data) => {
+    settings = data
     setAutostart(data.save.autostart)
     data.displays.forEach((disp, i) => {
         const option = document.createElement("option")
@@ -54,6 +56,41 @@ const setAutostart = (on, save) => {
         altOff.classList.add("d-none")
         altOn.classList.remove("d-none")
     }
+}
+
+const setWallpaper = () => {
+    const displayType = document.getElementById("display-select").value
+    if(displayType == '0'){
+        settings.displays.forEach(disp => {
+            appendWallpaper(
+                disp.id,
+                preview.src,
+                document.getElementById("object-fit").value,
+                document.getElementById("volume").value
+            )
+        })
+    }else{
+        appendWallpaper(
+            displayType,
+            preview.src,
+            document.getElementById("object-fit").value,
+            document.getElementById("volume").value
+        )
+    }
+}
+
+const appendWallpaper = (display, wallpaperFile, objectFit, volume) => {
+    console.log("Appending wallper")
+    settings.save.wallpapers[display] = {
+        file: wallpaperFile,
+        fit: objectFit,
+        volume: volume
+    }
+    window.top.postMessage({
+        type: "config",
+        method: "write",
+        body: settings.save
+    })
 }
 
 const resize = () => {

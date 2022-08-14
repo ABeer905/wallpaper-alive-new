@@ -8,7 +8,7 @@ window.addEventListener("message", e => {
         case("config"):
             if(e.data.method == "get"){
                 iframe.contentWindow.postMessage({type: "save", data: save})
-            }else{
+            }else if(e.data.method == "write"){
                 save.save = e.data.body
                 window.config.save(e.data.body)
             }

@@ -27,7 +27,7 @@ const createWindow = async () => {
         } 
     })
 
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
     mainWindow.loadFile('templates/index.html')
 }
 
@@ -65,7 +65,6 @@ const registerEventHandlers = (save) => {
     /******************SAVE API******************/
     ipcMain.handle("getSave", e => save)
     ipcMain.handle("writeSave", (e, saved_settings) => {
-        console.log(saved_settings)
         save.save = saved_settings
         fs.writeFile(savePath, JSON.stringify(saved_settings), err => {
             if(err) console.error(err)
