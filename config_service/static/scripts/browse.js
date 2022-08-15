@@ -26,15 +26,22 @@ volume.oninput = (e) => {
 
 searchbar.oninput = (e) => {
     const items = document.getElementsByClassName("wallpaper-item")
-    for(var item of items){
-        if(item.dataset.title.toLowerCase().includes(searchbar.value.toLowerCase()) ||
-           item.dataset.title == "nosearch")
+    for(var i=0, c=0; i < items.length; i++){
+        if(items[i].dataset.title.toLowerCase().includes(searchbar.value.toLowerCase()) ||
+           items[i].dataset.title == "nosearch")
         {
-            item.style.display = ""
+            items[i].style.display = ""
+            c++
         }
         else
         {
-            item.style.display = "none"
+            items[i].style.display = "none"
+        }
+        if(c == 2){
+            query.innerText = searchbar.value
+            results.classList.remove("d-none")
+        }else{
+            results.classList.add("d-none")
         }
     }
 }

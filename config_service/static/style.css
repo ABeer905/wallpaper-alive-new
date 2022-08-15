@@ -71,6 +71,13 @@
     box-shadow: none;
 }
 
+#results{
+    max-width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .static-wallpaper-item-label{
     border:none;
     font-size:1.5rem;
