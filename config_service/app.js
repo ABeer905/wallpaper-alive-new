@@ -10,9 +10,10 @@ const createSplash = () => {
     const splashWindow = new BrowserWindow({
         width: 400,
         height: 200,
+        show: false,
         frame: false,
         resizable: false,
-        show: false
+        skipTaskbar: true
     })
 
     splashWindow.loadFile('templates/splash.html')
@@ -38,6 +39,7 @@ const createWindow = async (splashWindow) => {
         minHeight: 600,
         show: false,
         title: "Wallpaper Alive",
+        icon: path.join(__dirname, "static", "brand.ico"),
         autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, "static", "scripts", "preload.js")
