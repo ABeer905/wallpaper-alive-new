@@ -13,3 +13,13 @@ const clearTags = () => {
         if(!selectedTags.includes(e.innerText)) e.classList.remove("bs-brand")
     })
 }
+
+const submitItem = () => {
+    const item = {
+        title: title.value,
+        desc: description.value,
+        tags: document.getElementById("tags-selected").value,
+        file: file.files[0].path
+    }
+    window.top.postMessage({type: "workshop", method: "submit", body: item})
+}

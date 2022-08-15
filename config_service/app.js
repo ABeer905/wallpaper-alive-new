@@ -100,7 +100,7 @@ const registerEventHandlers = (save) => {
     }
 
     /****************WORKSHOP API****************/
-    ipcMain.handle("getWorkshopItems", async e => {
+    ipcMain.handle("getWorkshopItems", e => {
         const content = []
         fake_item = {
             file: "C:\\Users\\C284101\\Downloads\\item-test.gif",
@@ -109,5 +109,8 @@ const registerEventHandlers = (save) => {
         }
         content.push(fake_item)
         return content
+    })
+    ipcMain.handle("submitWorkshopItem", (e, item) => {
+        console.log(item)
     })
 }

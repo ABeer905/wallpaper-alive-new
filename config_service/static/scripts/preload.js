@@ -12,5 +12,5 @@ contextBridge.exposeInMainWorld("config", {
 
 contextBridge.exposeInMainWorld("workshop", {
     "get": () => ipcRenderer.invoke("getWorkshopItems"),
-    "submit": (item) => ipcRenderer.invoke("submit", item)
+    "submit": (item) => ipcRenderer.invoke("submitWorkshopItem", item)
 })

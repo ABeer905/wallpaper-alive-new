@@ -45,11 +45,11 @@
             <form class="mx-5 w-lg-50 container-fluid">
                 <div class="mb-1">
                     <label class="form-label text-light">Title</label>
-                    <input type="text" class="form-control" required/>
+                    <input id="title" type="text" class="form-control" required/>
                 </div>
                 <div class="mb-1">
                     <label class="form-label text-light">Description</label>
-                    <textarea class="form-control"></textarea>
+                    <textarea id="description" class="form-control"></textarea>
                 </div>
                 <div class="mb-1">
                     <label class="form-label text-light">Tags</label>
@@ -63,11 +63,12 @@
                         </svg>
                         File
                     </label>
-                    <input class="form-control" type="file" required
+                    <input id="file" class="form-control" type="file" required
                      accept="image/png, image/jpeg, image/apng, image/avif, image/gif, image/svg+xml, image/webp, video/mp4, video/webm, video/ogg"/>
                 </div>
 
-                <input type="submit" class="form-control btn btn-primary" value="Submit" />
+                <input type="submit" class="form-control btn btn-primary" value="Submit" 
+                 onclick="submitItem()"/>
             </form>
         </div>
 

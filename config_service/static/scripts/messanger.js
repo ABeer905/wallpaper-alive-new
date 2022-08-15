@@ -21,7 +21,10 @@ window.addEventListener("message", e => {
                 window.workshop.get().then(items => {
                     iframe.contentWindow.postMessage({type: "workshop", data: items})
                 })
+            }else if(e.data.method == "submit"){
+                window.workshop.submit(e.data.body)
             }
+            break
     }
 })
 
