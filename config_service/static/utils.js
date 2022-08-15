@@ -17,6 +17,9 @@ const set_location = async (link) => {
 const resize_content = () => {
     const height_space = document.getElementById("horizontal-nav").getBoundingClientRect().height
     document.getElementById("content-container").style.height = `${window.innerHeight - height_space}px`
+    const mainContent = document.getElementById("main-menu-frame").getBoundingClientRect()
+    notification.style.left = `${mainContent.x}px`
+    notification.style.width = `${mainContent.width}px`
 }
 resize_content()
 

@@ -78,6 +78,10 @@
     text-overflow: ellipsis;
 }
 
+#notification{
+    transition: opacity 300ms;
+}
+
 .static-wallpaper-item-label{
     border:none;
     font-size:1.5rem;

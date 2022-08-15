@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, screen, shell } = require('electron')
+const { app, BrowserWindow, ipcMain, screen, shell, ipcRenderer } = require('electron')
 const dataTypes = require('../static_global/dataTypes.json')
 const fs = require('fs')
 const path = require('path')
@@ -30,7 +30,6 @@ const createWindow = async (splashWindow) => {
         displays: screen.getAllDisplays(),
         primaryDisplayID: screen.getPrimaryDisplay().id,
     }
-    registerEventHandlers(configuration)
 
     const mainWindow = new BrowserWindow({
         width: 800,
@@ -45,12 +44,13 @@ const createWindow = async (splashWindow) => {
             preload: path.join(__dirname, "static", "scripts", "preload.js")
         } 
     })
+    registerEventHandlers(mainWindow, configuration)
 
     mainWindow.loadFile('templates/index.html')
     mainWindow.once("ready-to-show", e => {
         splashWindow.close()
         mainWindow.show()
-        //mainWindow.webContents.openDevTools()
+        mainWindow.webContents.openDevTools()
     })
 }
 
@@ -79,7 +79,7 @@ const loadSave = () => {
 }
 
 /************API Event Handlers***************/
-const registerEventHandlers = (save) => {
+const registerEventHandlers = (window, save) => {
     /******************WEB API*******************/
     ipcMain.handle("webContentsRequested", (e, nav) => {
         if(validURLS.includes(nav)) shell.openExternal(nav)
@@ -89,15 +89,16 @@ const registerEventHandlers = (save) => {
     ipcMain.handle("getSave", e => save)
     ipcMain.handle("writeSave", (e, saved_settings) => {
         save.save = saved_settings
-        write()
+        write("Your settings were updated.")
     })
     ipcMain.handle("autostart", (e, on) => {
         save.save.autostart = on
-        write()
+        write(`Autostart was turned ${on ? "on": "off"}.`)
     })
-    const write = () => {
+    const write = (msg=null, danger=false) => {
         fs.writeFile(savePath, JSON.stringify(save.save), err => {
-            if(err) console.error(err)
+            if(err) { console.error(err); return }
+            if(msg) window.webContents.send("alert", [msg, danger])
         }) 
     }
 
