@@ -102,6 +102,12 @@ const registerEventHandlers = (save) => {
     /****************WORKSHOP API****************/
     ipcMain.handle("getWorkshopItems", async e => {
         const content = []
+        fake_item = {
+            file: "C:\\Users\\C284101\\Downloads\\item-test.gif",
+            preview: "C:\\Users\\C284101\\Downloads\\item-test.gif",
+            name: "item-test"
+        }
+        content.push(fake_item)
         return content
     })
 }

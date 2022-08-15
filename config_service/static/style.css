@@ -21,13 +21,48 @@
 .wallpaper-item{
     width: 180px;
     height: 150px;
-    background-color:var(--accent-dark);
+    overflow: hidden;
+    background-color: transparent;
+    padding: 0;
+    border: none
 }
 
 .wallpaper-item:hover{
-    box-shadow: 5px 5px rgba(0, 0, 0, .1);
     transform: scale(1.05);
     cursor: pointer;
+}
+
+.wallpaper-item:focus{
+    border: thick solid var(--brand-purple);
+}
+
+.wallpaper-item:focus img{
+    height: 115px;
+}
+
+.wallpaper-item:active{
+    border: thick solid var(--brand-purple);
+}
+
+.wallpaper-item:active{
+    height: 115px;
+}
+
+.wallpaper-item img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.25rem;
+    height: 130px;
+}
+
+.wallpaper-item label {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--bs-light)
 }
 
 #search{

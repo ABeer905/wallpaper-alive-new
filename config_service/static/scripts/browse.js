@@ -10,19 +10,7 @@ window.onmessage = (e) => {
     else if(e.data.type == "workshop") { displayWorkshopItems(e.data.data) }
 }
 
-fileUpload.oninput = (e) => {
-    const fileType = type(fileUpload.files[0].path)
-    document.getElementById(`preview-${fileType}`).src = fileUpload.files[0].path
-    fileUpload.value = null
-    startPreview(fileType)
-
-    document.getElementById("display-select").children[0].selected = "selected"
-    document.getElementById("wallpaper-modal").dataset.mode = "add"
-    document.getElementById("object-fit").children[0].selected = "selected"
-    volume.value = "100"
-    document.getElementById("vol-level").innerText = "100"
-    wallpaperModal.show()
-}
+fileUpload.oninput = e => { configureNewWallpaper(fileUpload.files[0].path) }
 
 volume.oninput = (e) => {
     document.getElementById("vol-level").innerText = volume.value
@@ -38,9 +26,25 @@ volume.oninput = (e) => {
 
 const displayWorkshopItems = (items) => {
     if(items.length == 0) {
+        document.getElementById("wallpapers-loading").classList.add("d-none")
         document.getElementById("no-wallpapers").classList.remove("d-none")
+    }else{
+        children = []
+        items.forEach((item) => {
+            const preview = document.createElement("img")
+            preview.src = item.preview
+            const title = document.createElement("label")
+            title.innerText = item.name
+            const container = document.createElement("button")
+            container.setAttribute("class", "wallpaper-item m-1 rounded")
+            container.dataset.file = item.file
+            container.setAttribute("onclick", "configureNewWallpaper(this.dataset.file)")
+            container.append(preview, title)
+            children.push(container)
+        })
+        document.getElementById("wallpapers-loading").classList.add("d-none")
+        document.getElementById("wallpaper-container").append(...children)
     }
-    document.getElementById("wallpapers-loading").classList.add("d-none")
 }
 
 var settings;
@@ -139,6 +143,20 @@ const type = (file) => {
     {
         return "image"
     }
+}
+
+const configureNewWallpaper = (file) => {
+    const fileType = type(file)
+    document.getElementById(`preview-${fileType}`).src = file
+    fileUpload.value = null
+    startPreview(fileType)
+
+    document.getElementById("display-select").children[0].selected = "selected"
+    document.getElementById("wallpaper-modal").dataset.mode = "add"
+    document.getElementById("object-fit").children[0].selected = "selected"
+    volume.value = "100"
+    document.getElementById("vol-level").innerText = "100"
+    wallpaperModal.show()
 }
 
 const editWallpaper = () => {
