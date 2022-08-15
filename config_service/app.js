@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, screen, shell, ipcRenderer } = require('electron')
+const { app, BrowserWindow, ipcMain, screen, shell } = require('electron')
 const dataTypes = require('../static_global/dataTypes.json')
 const fs = require('fs')
 const path = require('path')
@@ -113,7 +113,46 @@ const registerEventHandlers = (window, save) => {
         content.push(fake_item)
         return content
     })
-    ipcMain.handle("submitWorkshopItem", (e, item) => {
-        console.log(item)
+    ipcMain.handle("submitWorkshopItem", async (e, item) => {
+        const thumbnail = await generateThumbnail(item.file)
+        window.webContents.send("workshopStatus", "thumbnail")
     })
+    const type = (file) => {
+        file = file.toLowerCase()
+        if(file.endsWith(".mp4") || 
+           file.endsWith(".ogg") ||
+           file.endsWith(".webm")
+        )
+        {
+            return "video"
+        }
+        else if (file.endsWith(".html") || file.endsWith(".htm"))
+        {
+            return "script"
+        }
+        else
+        {
+            return "image"
+        }
+    }
+    const generateThumbnail = (file) => {
+        const fileType = type(file)
+        const { exec } = require("child_process")
+        return new Promise((resolve) => {
+            if(fileType == "video") {
+                exec(`ffmpeg\\ffmpeg -t 8 -i "${file}" -vf "fps=10,scale=200:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 preview.gif`,
+                    (error, stdout, stderr) => {
+                        if(error) { console.error(error); return }
+                        if(stderr) { resolve() }
+                    })
+            }else if(fileType == "image"){
+                const fileEnding = file.substring(file.lastIndexOf(".") + 1)
+                exec(`ffmpeg\\ffmpeg -i "${file}" -vf scale=200:-1 preview.${fileEnding}`,
+                (error, stdout, stderr) => {
+                    if(error) { console.error(error); return }
+                    if(stderr) { resolve() }
+                })
+            }
+        })
+    }
 }

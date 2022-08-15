@@ -1,5 +1,14 @@
 const info = new bootstrap.Modal(document.getElementById("submitModal"))
 
+window.onmessage = (e) => {
+    if(e.data.type == "workshopStatusUpdate"){
+        if(e.data.body == "thumbnail"){
+            document.getElementById("generating-preview").classList.add("d-none")
+            document.getElementById("staging-contents").classList.remove("d-none")
+        }
+    } 
+}
+
 const saveTags = () => {
     let tags = ""
     Array.from(document.getElementsByClassName("bs-brand")).forEach((e) => {

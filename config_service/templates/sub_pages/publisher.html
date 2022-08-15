@@ -14,9 +14,10 @@
                   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="clearTags()"></button>
                 </div>
                 <div class="modal-body text-light">
-                    <div id="generating-preview" class="d-flex w-100 align-items-center flex-column" >
+                    <div id="status-container" class="d-flex w-100 align-items-center flex-column" >
                         <div class="spinner-border active"></div>
-                        Generating wallpaper preview
+                        <p id="generating-preview">Generating wallpaper preview</p>
+                        <p id="staging-contents" class="d-none">Staging files for upload</p>
                     </div>
                     <div id="submit-started" class="d-none">
                         Your workshop submission is in progress. You can view the item in the workshop by clicking on the button below.

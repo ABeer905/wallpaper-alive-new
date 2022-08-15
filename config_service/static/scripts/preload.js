@@ -31,3 +31,10 @@ ipcRenderer.on("alert", (e, args) => {
     notification.style.opacity = "1"
     alertTimeout = setTimeout(() => notification.style.opacity = "0", 3000)
 })
+
+ipcRenderer.on("workshopStatus", (e, update) => {
+    document.getElementById("main-menu-frame").contentWindow.postMessage({
+        type: "workshopStatusUpdate",
+        body: update
+    })
+})
