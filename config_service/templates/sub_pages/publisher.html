@@ -6,6 +6,30 @@
         <style>body{background-color: transparent;}</style>
     </head>
     <body>
+        <div class="modal fade" id="submitModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content" style="background-color:var(--accent-dark)">
+                <div class="modal-header text-light">
+                  <h5 class="modal-title">Steam Workshop Submission</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="clearTags()"></button>
+                </div>
+                <div class="modal-body text-light">
+                    <div id="generating-preview" class="d-flex w-100 align-items-center flex-column" >
+                        <div class="spinner-border active"></div>
+                        Generating wallpaper preview
+                    </div>
+                    <div id="submit-started" class="d-none">
+                        Your workshop submission is in progress. You can view the item in the workshop by clicking on the button below.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="">Close</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="" disabled>View in Workshop</button>
+                </div>
+              </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="tagModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content" style="background-color:var(--accent-dark)">
@@ -67,8 +91,7 @@
                      accept="image/png, image/jpeg, image/apng, image/avif, image/gif, image/svg+xml, image/webp, video/mp4, video/webm, video/ogg"/>
                 </div>
 
-                <input type="submit" class="form-control btn btn-primary" value="Submit" 
-                 onclick="submitItem()"/>
+                <button type="button" class="form-control btn btn-primary" onclick="submitItem()">Submit</button>
             </form>
         </div>
 
