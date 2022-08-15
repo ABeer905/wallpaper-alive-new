@@ -24,6 +24,21 @@ volume.oninput = (e) => {
     }
 }
 
+searchbar.oninput = (e) => {
+    const items = document.getElementsByClassName("wallpaper-item")
+    for(var item of items){
+        if(item.dataset.title.toLowerCase().includes(searchbar.value.toLowerCase()) ||
+           item.dataset.title == "nosearch")
+        {
+            item.style.display = ""
+        }
+        else
+        {
+            item.style.display = "none"
+        }
+    }
+}
+
 const displayWorkshopItems = (items) => {
     if(items.length == 0) {
         document.getElementById("wallpapers-loading").classList.add("d-none")
@@ -37,6 +52,7 @@ const displayWorkshopItems = (items) => {
             title.innerText = item.name
             const container = document.createElement("button")
             container.setAttribute("class", "wallpaper-item m-1 rounded")
+            container.dataset.title = item.name
             container.dataset.file = item.file
             container.setAttribute("onclick", "configureNewWallpaper(this.dataset.file)")
             container.append(preview, title)
