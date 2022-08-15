@@ -25,6 +25,10 @@
                 </div>
                 <div class="modal-body">
                   <form>
+                    <div class="d-flex flex-column mb-3">
+                        <label class="form-label text-light text-overflow">Name: <span id="file-name"></span></label>
+                        <label class="form-label text-light text-overflow">Type: <span id="file-type"></span></label>
+                    </div>
                     <div class="mb-3">
                         <label class="form-label text-light" style="font-size:1,5rem;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-display" viewBox="0 0 16 16">
@@ -123,8 +127,8 @@
 
         <div id="info-footer" class="container-fluid bg-dark p-3 position-fixed bottom-0">
             <div class="w-100 d-flex">
-                <h3 id="current-wallpaper-container" class="text-light flex-grow-1">Current Wallpaper: <span id="current-wallpaper">Default</span></h3>
-                <button class="btn btn-primary" onclick="editWallpaper()">Configure</button>
+                <h3 id="current-wallpaper-container" class="text-light text-overflow flex-grow-1">Current Wallpaper: <span id="current-wallpaper">Default</span></h3>
+                <button class="btn btn-primary" onclick="editWallpaper()">Update</button>
             </div>
             <div>
                 <label class="text-light">Start on Boot: 

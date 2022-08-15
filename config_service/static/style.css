@@ -44,7 +44,7 @@
     border: thick solid var(--brand-purple);
 }
 
-.wallpaper-item:active{
+.wallpaper-item:active img{
     height: 115px;
 }
 
@@ -83,7 +83,7 @@
     font-size:1.5rem;
 }
 
-#current-wallpaper-container{
+.text-overflow{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

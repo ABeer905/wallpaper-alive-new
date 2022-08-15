@@ -61,7 +61,7 @@ const displayWorkshopItems = (items) => {
             container.setAttribute("class", "wallpaper-item m-1 rounded")
             container.dataset.title = item.name
             container.dataset.file = item.file
-            container.setAttribute("onclick", "configureNewWallpaper(this.dataset.file)")
+            container.setAttribute("onclick", "configureNewWallpaper(this.dataset.file, this.dataset.title)")
             container.append(preview, title)
             children.push(container)
         })
@@ -114,7 +114,8 @@ const setWallpaper = () => {
                 disp.id,
                 file,
                 document.getElementById("object-fit").value,
-                document.getElementById("volume").value
+                document.getElementById("volume").value,
+                document.getElementById("file-name").innerText
             )
         })
     }else{
@@ -122,13 +123,13 @@ const setWallpaper = () => {
             displayType,
             file,
             document.getElementById("object-fit").value,
-            document.getElementById("volume").value
+            document.getElementById("volume").value,
+            document.getElementById("file-name").innerText
         )
     }
 }
 
-const appendWallpaper = (display, wallpaperFile, objectFit, volume) => {
-    let name = nameFromFile(wallpaperFile)
+const appendWallpaper = (display, wallpaperFile, objectFit, volume, name) => {
     if(display == settings.primaryDisplayID){
         document.getElementById("current-wallpaper").innerText = name
     }
@@ -146,7 +147,7 @@ const appendWallpaper = (display, wallpaperFile, objectFit, volume) => {
 }
 
 const nameFromFile = (file) => {
-    return file.substring(file.lastIndexOf("/") + 1, file.lastIndexOf("."))
+    return file.substring(file.lastIndexOf("\\") + 1, file.lastIndexOf("."))
 }
 
 const type = (file) => {
@@ -168,12 +169,14 @@ const type = (file) => {
     }
 }
 
-const configureNewWallpaper = (file) => {
+const configureNewWallpaper = (file, name=null) => {
     const fileType = type(file)
     document.getElementById(`preview-${fileType}`).src = file
     fileUpload.value = null
     startPreview(fileType)
 
+    document.getElementById("file-name").innerText = name ? name : nameFromFile(file)
+    document.getElementById("file-type").innerText = type(file)
     document.getElementById("display-select").children[0].selected = "selected"
     document.getElementById("wallpaper-modal").dataset.mode = "add"
     document.getElementById("object-fit").children[0].selected = "selected"
@@ -196,7 +199,9 @@ const getSettingsForDisplay = (disp) => {
         Array.from(document.getElementById("object-fit").children).forEach(e => {
             if(e.value == settings.save.wallpapers[disp].fit) e.selected = "selected"
         })
+        document.getElementById("file-name").innerText = settings.save.wallpapers[disp].name
         const fileType = type(settings.save.wallpapers[disp].file)
+        document.getElementById("file-type").innerText = fileType
         document.getElementById(`preview-${fileType}`).src = settings.save.wallpapers[disp].file
         startPreview(fileType)
         volume.value = settings.save.wallpapers[disp].volume
