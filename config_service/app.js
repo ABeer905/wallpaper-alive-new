@@ -105,7 +105,7 @@ const registerEventHandlers = (save) => {
         fake_item = {
             file: "C:\\Users\\C284101\\Downloads\\item-test.gif",
             preview: "C:\\Users\\C284101\\Downloads\\item-test.gif",
-            name: "item-test"
+            name: "This is a really long title test"
         }
         content.push(fake_item)
         return content
