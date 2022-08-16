@@ -2,8 +2,10 @@ const { app, BrowserWindow, ipcMain, screen, shell } = require('electron')
 const dataTypes = require('../static_global/dataTypes.json')
 const fs = require('fs')
 const path = require('path')
+const { resolve } = require('path')
 
 const savePath = path.join(path.join(__dirname, "..", ".config"))
+const stagingPath = path.join(__dirname, "publisher_staging")
 const validURLS = ["steam://store/2009120", "steam://url/SteamWorkshopPage/2009120", "https://steamcommunity.com/app/2003310/discussions", "https://github.com/arbeers1/wallpaper-alive-new"]
 
 const createSplash = () => {
@@ -114,8 +116,33 @@ const registerEventHandlers = (window, save) => {
         return content
     })
     ipcMain.handle("submitWorkshopItem", async (e, item) => {
-        const thumbnail = await generateThumbnail(item.file)
+        const stageName = (Math.floor(100000 + Math.random() * 900000)).toString()
+        const stage = await new Promise((resolve) => {
+            fs.mkdir(path.join(stagingPath, stageName), {recursive: true}, (err, path) => {
+                resolve(path)
+            })
+        })
+        await new Promise((resolve) => {
+            let staging_complete = 0
+            let fileName = item.file.substring(item.file.lastIndexOf('\\') + 1)
+            fs.copyFile(item.file, path.join(stage, fileName), err => {
+                if(err) console.error(err)
+                staging_complete++
+                if(staging_complete == 2) resolve()
+            })
+            fs.writeFile(path.join(stage, "info.json"), `{"title": "${item.title}"}`, err => {
+                if(err) console.error(err)
+                staging_complete++;
+                if(staging_complete == 2) resolve()
+            })
+        })
+        window.webContents.send("workshopStatus", "staging")
+        
+        await generateThumbnail(item.file, stage)
         window.webContents.send("workshopStatus", "thumbnail")
+
+        //TODO: post stage to Steam. Delete timeout.
+        setTimeout(() => window.webContents.send("workshopStatus", ["complete", "#"]), 3000)
     })
     const type = (file) => {
         file = file.toLowerCase()
@@ -135,19 +162,19 @@ const registerEventHandlers = (window, save) => {
             return "image"
         }
     }
-    const generateThumbnail = (file) => {
+    const generateThumbnail = (file, destination) => {
         const fileType = type(file)
         const { exec } = require("child_process")
         return new Promise((resolve) => {
             if(fileType == "video") {
-                exec(`ffmpeg\\ffmpeg -t 8 -i "${file}" -vf "fps=10,scale=200:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 preview.gif`,
+                exec(`ffmpeg\\ffmpeg -t 8 -i "${file}" -vf "fps=10,scale=200:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "${destination}\\preview.gif"`,
                     (error, stdout, stderr) => {
                         if(error) { console.error(error); return }
                         if(stderr) { resolve() }
                     })
             }else if(fileType == "image"){
                 const fileEnding = file.substring(file.lastIndexOf(".") + 1)
-                exec(`ffmpeg\\ffmpeg -i "${file}" -vf scale=200:-1 preview.${fileEnding}`,
+                exec(`ffmpeg\\ffmpeg -i "${file}" -vf scale=200:-1 "${destination}\\preview.${fileEnding}"`,
                 (error, stdout, stderr) => {
                     if(error) { console.error(error); return }
                     if(stderr) { resolve() }

@@ -15,9 +15,10 @@
                 </div>
                 <div class="modal-body text-light">
                     <div id="status-container" class="d-flex w-100 align-items-center flex-column" >
-                        <div class="spinner-border active"></div>
-                        <p id="generating-preview">Generating wallpaper preview</p>
-                        <p id="staging-contents" class="d-none">Staging files for upload</p>
+                        <div id="loading" class="spinner-border active"></div>
+                        <p id="staging-contents">Staging files for upload</p>
+                        <p id="generating-preview" class="d-none">Generating wallpaper preview</p>
+                        <p id="uploading" class="d-none">Uploading to Steam</p>
                     </div>
                     <div id="submit-started" class="d-none">
                         Your workshop submission is in progress. You can view the item in the workshop by clicking on the button below.
@@ -25,7 +26,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="">Close</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="" disabled>View in Workshop</button>
+                  <button id="view-workshop" type="button" class="btn btn-primary" data-bs-dismiss="modal" data-workshopID="" onclick="" disabled>View in Workshop</button>
                 </div>
               </div>
             </div>
