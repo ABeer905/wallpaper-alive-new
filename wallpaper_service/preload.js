@@ -30,6 +30,8 @@ const setup = async (save) => {
     try{
         const wallpaper = save.wallpapers[await ipcRenderer.invoke("id")]
         const wallpaperType = type(wallpaper.file)
+        error.classList.add = "d-none"
+
         if(wallpaperType == "video"){
             img.src = ""
             img.classList.add("d-none")
@@ -47,6 +49,7 @@ const setup = async (save) => {
             img.style.objectFit = wallpaper.fit
             img.classList.remove("d-none")
         }
+        blank.classList.remove("d-none")
     }catch(e) {
         console.error(e)
     }
