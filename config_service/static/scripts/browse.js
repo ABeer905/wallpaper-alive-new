@@ -207,6 +207,7 @@ const getSettingsForDisplay = (disp) => {
         startPreview(fileType)
         volume.value = settings.save.wallpapers[disp].volume
         document.getElementById("vol-level").innerText = settings.save.wallpapers[disp].volume
+        document.getElementById("preview-video").volume = parseInt(volume.value) / 100
     }
 }
 
