@@ -40,10 +40,11 @@ const setup = async (save) => {
         document.getElementById("media-container").replaceChildren(e)
 
         if(wallpaperType == "video"){
-            e.volume = wallpaper.volume
-            e.play()
+            e.volume = parseInt(wallpaper.volume) / 100
+            e.oncanplay = () => e.play()
         }
     }catch(e) {
+        console.error(e)
         errorAlert()
     }
 }
@@ -54,7 +55,6 @@ const resetErrMsg = () => {
 }
 
 const errorAlert = (e=null) => {
-    if(e) e.classList.add("d-none")
     blank.classList.add("d-none")
     error.classList.remove("d-none")
 }
