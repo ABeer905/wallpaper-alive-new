@@ -47,6 +47,7 @@ const setup = async (save) => {
         mediaContainer.appendChild(e)
 
         if(wallpaperType == "video"){
+            e.loop = true
             e.volume = parseInt(wallpaper.volume) / 100
             e.oncanplay = () => e.play()
         }
