@@ -7,6 +7,9 @@ const savePath = path.join(path.join(__dirname, "..", ".config"))
 const stagingPath = path.join(__dirname, "publisher_staging")
 const validURLS = ["steam://store/2009120", "steam://url/SteamWorkshopPage/2009120", "https://steamcommunity.com/app/2003310/discussions", "https://github.com/arbeers1/wallpaper-alive-new"]
 
+const lock = app.requestSingleInstanceLock()
+if(!lock) app.quit()
+
 const createSplash = () => {
     const splashWindow = new BrowserWindow({
         width: 400,
@@ -53,14 +56,17 @@ const createWindow = async (splashWindow) => {
         mainWindow.show()
         mainWindow.webContents.openDevTools()
     })
+
+    app.on("second-instance", () => {
+        if(mainWindow.isMinimized()) mainWindow.restore()
+        mainWindow.focus()
+    })
 }
 
 app.enableSandbox()
 app.whenReady().then(() => createSplash())
 
-app.on('window-all-closed', () => {
-    app.quit()
-})
+app.on("window-all-closed", () => app.quit())
 
 const loadSave = () => {
     return new Promise((resolve) => {
