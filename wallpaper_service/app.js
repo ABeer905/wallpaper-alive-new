@@ -1,8 +1,9 @@
 const {app, BrowserWindow, ipcMain, screen, globalShortcut} = require("electron")
-const path = require("path")
+const windows = require("./build/Release/windows_service")
+const os = require("os")
 const fs = require("fs")
 
-const savePath = path.join(path.join(__dirname, "..", ".config"))
+const savePath = `${__dirname}/../.config`
 
 const lock = app.requestSingleInstanceLock
 if(!lock) app.quit()
@@ -23,15 +24,19 @@ const createWallpapers = (save) => {
             y: disp.bounds.y,
             width: disp.size.width,
             height: disp.size.height,
-            icon: path.join(__dirname, "..", "static_global", "brand.ico"),
+            icon: `${__dirname}/../static_global/brand.ico`,
             webPreferences: {
-                preload: path.join(__dirname, "preload.js")
+                preload: `${__dirname}/preload.js`
             }
         })
         windowToDisplay[win.id] = disp.id
 
         win.loadFile("index.html")
-        win.once("ready-to-show", e =>{
+        win.once("ready-to-show", e => {
+            windows.setWallpaper(
+                handleToInt(win.getNativeWindowHandle()),
+                disp.bounds.x,
+                disp.bounds.y)
             win.show()
             //win.webContents.openDevTools()
         })
@@ -63,4 +68,8 @@ const loadSave = () => {
             resolve(null)
         }
     })
+}
+
+const handleToInt = (handle) => {
+    return os.endianness() == "LE" ? handle.readInt32LE() : handle.readInt32BE()
 }
