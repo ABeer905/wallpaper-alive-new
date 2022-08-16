@@ -4,7 +4,7 @@
   "description": "Wallpaper service",
   "main": "app.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron . --dev=true",
     "compile": "node-gyp clean configure build --verbose --arch=x64",
     "rebuild": ".\\node_modules\\.bin\\electron-rebuild.cmd",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -9,6 +9,9 @@ const savePath = `${__dirname}/../.config`
 
 const lock = app.requestSingleInstanceLock
 if(!lock) app.quit()
+app.on('second-instance', (event, argv, workingDirectory) => {
+    if(argv.includes("--quit")) app.quit()
+})
 
 const createWallpapers = (save) => {
     ipcMain.handle("getSave", e => save)
@@ -94,8 +97,7 @@ const listenForSaveChange = (wallpapers) => {
 }
 
 const openMenu = () => {
-    const devEnvironment = true
-    if(devEnvironment){
+    if(app.commandLine.getSwitchValue("dev") == true){
         exec("cd ../config_service & npm start", (err, stdout, stderr) => {})
     }
 }
