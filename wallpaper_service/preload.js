@@ -22,7 +22,7 @@ const type = (file) => {
     }
     else
     {
-        return "image"
+        return "img"
     }
 }
 
@@ -30,29 +30,31 @@ const setup = async (save) => {
     try{
         const wallpaper = save.wallpapers[await ipcRenderer.invoke("id")]
         const wallpaperType = type(wallpaper.file)
-        error.classList.add = "d-none"
-        log.classList.add = "d-none"
+        resetErrMsg()
+
+        const e = document.createElement(wallpaperType)
+        e.onerror = (err) => errorAlert(e)
+        e.src = wallpaper.file
+        e.style.objectFit = wallpaper.fit
+        e.classList.add("wallpaper")
+        document.getElementById("media-container").replaceChildren(e)
 
         if(wallpaperType == "video"){
-            img.src = ""
-            img.classList.add("d-none")
-
-            vid.src = wallpaper.file
-            vid.volume = parseInt(wallpaper.volume) / 100
-            vid.style.objectFit = wallpaper.fit
-            vid.classList.remove("d-none")
-            vid.play()
-        }else if(wallpaperType == "image"){
-            vid.src = ""
-            vid.classList.add("d-none")
-
-            img.src = wallpaper.file
-            img.style.objectFit = wallpaper.fit
-            img.classList.remove("d-none")
+            e.volume = wallpaper.volume
+            e.play()
         }
-        blank.classList.remove("d-none")
     }catch(e) {
-        log.innerText = ` Error message: ${e.message}`
-        log.classList.remove("d-none")
+        errorAlert()
     }
+}
+
+const resetErrMsg = () => {
+    error.classList.add("d-none")
+    blank.classList.remove("d-none")
+}
+
+const errorAlert = (e=null) => {
+    if(e) e.classList.add("d-none")
+    blank.classList.add("d-none")
+    error.classList.remove("d-none")
 }

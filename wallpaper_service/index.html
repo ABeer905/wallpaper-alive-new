@@ -22,13 +22,9 @@
         </div>
         <div id="error" class="d-none alert alert-danger position-fixed top-0 start-0 container-fluid text-center">
             An error occured while loading the wallpaper. You may need to update the file in the menu.
-            <span id="log" class="d-none"></span>
         </div>
-        <div id="blank" class="d-none wallpaper bg-dark"></div>
-        <img id="img" src="" class="d-none wallpaper" onerror="blank.classList.add('d-none');error.classList.remove('d-none')"/>
-        <video id="vid" src="" class="d-none wallpaper" loop onerror="blank.classList.add('d-none');error.classList.remove('d-none')"></video>
-        <iframe id="srcipt" src="" class="d-none wallpaper"></iframe>
-
+        <div id="blank" class="wallpaper bg-dark"></div>
+        <div id="media-container"></div>
         <script>window.save.get()</script>
     </body>
 </html>

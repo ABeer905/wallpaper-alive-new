@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain, screen} = require("electron")
+const {app, BrowserWindow, ipcMain, screen, globalShortcut} = require("electron")
 const path = require("path")
 const fs = require("fs")
 
@@ -7,8 +7,7 @@ const savePath = path.join(path.join(__dirname, "..", ".config"))
 const lock = app.requestSingleInstanceLock
 if(!lock) app.quit()
 
-const createWallpapers = async () => {
-    const save = await loadSave()
+const createWallpapers = (save) => {
     ipcMain.handle("getSave", e => save)
     ipcMain.handle("id", e => windowToDisplay[e.sender.id])
 
@@ -34,13 +33,21 @@ const createWallpapers = async () => {
         win.loadFile("index.html")
         win.once("ready-to-show", e =>{
             win.show()
-            win.webContents.openDevTools()
+            //win.webContents.openDevTools()
         })
     })
 }
 
 app.enableSandbox()
-app.whenReady().then(() => createWallpapers())
+app.whenReady().then(async () => {
+    const save = await loadSave()
+    if(save){
+        const res = globalShortcut.register(save.shortcut, () => {
+            //open config menu
+        })
+    } 
+    createWallpapers(save)
+})
 
 app.on('window-all-closed', () => app.quit())
 
