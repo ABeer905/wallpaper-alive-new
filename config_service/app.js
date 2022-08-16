@@ -55,7 +55,7 @@ const createWindow = async (splashWindow) => {
     mainWindow.once("ready-to-show", e => {
         splashWindow.close()
         mainWindow.show()
-        mainWindow.webContents.openDevTools()
+        //mainWindow.webContents.openDevTools()
     })
 
     app.on("second-instance", () => {

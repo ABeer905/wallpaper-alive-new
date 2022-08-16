@@ -1,5 +1,6 @@
 const {app, BrowserWindow, ipcMain, screen, globalShortcut} = require("electron")
 const windows = require("./build/Release/windows_service")
+const { exec, execSync } = require("child_process")
 const os = require("os")
 const fs = require("fs")
 
@@ -47,9 +48,7 @@ app.enableSandbox()
 app.whenReady().then(async () => {
     const save = await loadSave()
     if(save){
-        const res = globalShortcut.register(save.shortcut, () => {
-            //open config menu
-        })
+        createShortcut(save.shortcut)
     } 
     createWallpapers(save)
 })
@@ -66,6 +65,15 @@ const loadSave = () => {
         }else{
             //Open config service
             resolve(null)
+        }
+    })
+}
+
+const createShortcut = (accelerator) => {
+    const res = globalShortcut.register(accelerator, () => {
+        const devEnvironment = true
+        if(devEnvironment){
+            exec("cd ../config_service & npm start", (err, stdout, stderr) => {})
         }
     })
 }
