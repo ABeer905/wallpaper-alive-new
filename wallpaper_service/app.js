@@ -1,13 +1,19 @@
-const {app, BrowserWindow, screen} = require("electron")
+const {app, BrowserWindow, ipcMain, screen} = require("electron")
 const path = require("path")
 const fs = require("fs")
 
-const lock = app.requestSingleInstanceLock
+const savePath = path.join(path.join(__dirname, "..", ".config"))
 
+const lock = app.requestSingleInstanceLock
 if(!lock) app.quit()
 
-const createWallpapers = () => {
+const createWallpapers = async () => {
+    const save = await loadSave()
+    ipcMain.handle("getSave", e => save)
+    ipcMain.handle("id", e => windowToDisplay[e.sender.id])
+
     const displays = screen.getAllDisplays()
+    const windowToDisplay = {}
     displays.forEach(disp => {
         disp.bounds = screen.dipToScreenRect(null, disp.bounds)
         const win = new BrowserWindow({
@@ -23,6 +29,7 @@ const createWallpapers = () => {
                 preload: path.join(__dirname, "preload.js")
             }
         })
+        windowToDisplay[win.id] = disp.id
 
         win.loadFile("index.html")
         win.once("ready-to-show", e => win.show())
@@ -33,3 +40,17 @@ app.enableSandbox()
 app.whenReady().then(() => createWallpapers())
 
 app.on('window-all-closed', () => app.quit())
+
+const loadSave = () => {
+    return new Promise((resolve) => {
+        if(fs.existsSync(savePath)){
+            fs.readFile(savePath, 'utf8', (err, data) => {
+                if(err) { console.error(err); return; }
+                resolve(JSON.parse(data))
+            })
+        }else{
+            //Open config service
+            resolve(null)
+        }
+    })
+}
