@@ -7,6 +7,8 @@ contextBridge.exposeInMainWorld("save", {
     }
 })
 
+ipcRenderer.on("saveUpdated", (e, save) => setup(save))
+
 const type = (file) => {
     file = file.toLowerCase()
     if(file.endsWith(".mp4") || 
@@ -30,14 +32,19 @@ const setup = async (save) => {
     try{
         const wallpaper = save.wallpapers[await ipcRenderer.invoke("id")]
         const wallpaperType = type(wallpaper.file)
-        resetErrMsg()
+        const mediaContainer = document.getElementById("media-container")
+        blank.classList.remove("d-none")
 
         const e = document.createElement(wallpaperType)
-        e.onerror = (err) => errorAlert(e)
         e.src = wallpaper.file
-        e.style.objectFit = wallpaper.fit
         e.classList.add("wallpaper")
-        document.getElementById("media-container").replaceChildren(e)
+        e.style.objectFit = wallpaper.fit
+
+        if(mediaContainer.firstElementChild){
+            mediaContainer.firstElementChild.src = ""
+            mediaContainer.firstElementChild.remove()
+        }
+        mediaContainer.appendChild(e)
 
         if(wallpaperType == "video"){
             e.volume = parseInt(wallpaper.volume) / 100
@@ -45,16 +52,5 @@ const setup = async (save) => {
         }
     }catch(e) {
         console.error(e)
-        errorAlert()
     }
-}
-
-const resetErrMsg = () => {
-    error.classList.add("d-none")
-    blank.classList.remove("d-none")
-}
-
-const errorAlert = (e=null) => {
-    blank.classList.add("d-none")
-    error.classList.remove("d-none")
 }

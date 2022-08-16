@@ -1,6 +1,6 @@
 const {app, BrowserWindow, ipcMain, screen, globalShortcut} = require("electron")
 const windows = require("./build/Release/windows_service")
-const { exec, execSync } = require("child_process")
+const { exec } = require("child_process")
 const os = require("os")
 const fs = require("fs")
 
@@ -15,6 +15,7 @@ const createWallpapers = (save) => {
 
     const displays = screen.getAllDisplays()
     const windowToDisplay = {}
+    const wallpapers = []
     displays.forEach(disp => {
         disp.bounds = screen.dipToScreenRect(null, disp.bounds)
         const win = new BrowserWindow({
@@ -31,6 +32,7 @@ const createWallpapers = (save) => {
             }
         })
         windowToDisplay[win.id] = disp.id
+        wallpapers.push(win)
 
         win.loadFile("index.html")
         win.once("ready-to-show", e => {
@@ -42,6 +44,7 @@ const createWallpapers = (save) => {
             //win.webContents.openDevTools()
         })
     })
+    listenForSaveChange(wallpapers)
 }
 
 app.enableSandbox()
@@ -66,6 +69,17 @@ const loadSave = () => {
             //Open config service
             resolve(null)
         }
+    })
+}
+
+const listenForSaveChange = (wallpapers) => {
+    let lastTimestamp = Date.now()
+    fs.watch(savePath, {}, e => {
+        if(Date.now() - lastTimestamp <= 100) return
+        lastTimestamp = Date.now()
+        loadSave().then(save => {
+            wallpapers.forEach(w => w.webContents.send("saveUpdated", save))
+        })
     })
 }
 
