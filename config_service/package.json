@@ -7,7 +7,7 @@
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Trees",
+  "author": "TREE.s",
   "license": "ISC",
   "devDependencies": {
     "electron": "^20.0.2"

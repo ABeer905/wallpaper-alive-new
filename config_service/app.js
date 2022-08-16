@@ -17,7 +17,8 @@ const createSplash = () => {
         show: false,
         frame: false,
         resizable: false,
-        skipTaskbar: true
+        skipTaskbar: true,
+        icon: path.join(__dirname, "..", "static_global", "brand.ico")
     })
 
     splashWindow.loadFile('templates/splash.html')
@@ -42,7 +43,7 @@ const createWindow = async (splashWindow) => {
         minHeight: 600,
         show: false,
         title: "Wallpaper Alive",
-        icon: path.join(__dirname, "static", "brand.ico"),
+        icon: path.join(__dirname, "..", "static_global", "brand.ico"),
         autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, "static", "scripts", "preload.js")

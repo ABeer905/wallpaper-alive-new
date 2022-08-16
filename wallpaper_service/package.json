@@ -11,10 +11,13 @@
     "type": "git",
     "url": "git+https://github.com/arbeers1/wallpaper-alive-new.git"
   },
-  "author": "Trees",
+  "author": "TREE.s",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/arbeers1/wallpaper-alive-new/issues"
   },
-  "homepage": "https://github.com/arbeers1/wallpaper-alive-new#readme"
+  "homepage": "https://github.com/arbeers1/wallpaper-alive-new#readme",
+  "devDependencies": {
+    "electron": "^20.0.2"
+  }
 }
