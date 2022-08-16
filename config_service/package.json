@@ -1,13 +1,13 @@
 {
-  "name": "config_service",
-  "version": "1.0.0",
-  "description": "Menu configuration for wallpaper service.",
+  "name": "WallpaperAliveMenu",
+  "version": "1.1.0",
+  "description": "Menu service",
   "main": "app.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "tree_industries",
+  "author": "Trees",
   "license": "ISC",
   "devDependencies": {
     "electron": "^20.0.2"

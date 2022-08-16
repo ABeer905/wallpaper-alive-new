@@ -2,8 +2,6 @@ const { app, BrowserWindow, ipcMain, screen, shell } = require('electron')
 const dataTypes = require('../static_global/dataTypes.json')
 const fs = require('fs')
 const path = require('path')
-const { resolve } = require('path')
-const { clear } = require('console')
 
 const savePath = path.join(path.join(__dirname, "..", ".config"))
 const stagingPath = path.join(__dirname, "publisher_staging")
