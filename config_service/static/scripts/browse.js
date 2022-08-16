@@ -22,6 +22,7 @@ volume.oninput = (e) => {
     }else{
         document.getElementById("volume-none").classList.remove("d-none")
     }
+    document.getElementById("preview-video").volume = parseInt(volume.value) / 100
 }
 
 searchbar.oninput = (e) => {
