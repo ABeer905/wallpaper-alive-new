@@ -15,6 +15,10 @@ contextBridge.exposeInMainWorld("workshop", {
     "submit": (item) => ipcRenderer.invoke("submitWorkshopItem", item)
 })
 
+contextBridge.exposeInMainWorld("app", {
+    "quit": () => ipcRenderer.invoke("quit")
+})
+
 var alertTimeout;
 ipcRenderer.on("alert", (e, args) => {
     if(alertTimeout) clearTimeout(alertTimeout)

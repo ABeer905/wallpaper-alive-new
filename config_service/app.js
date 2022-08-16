@@ -185,6 +185,13 @@ const registerEventHandlers = (window, save) => {
             }
         })
     }
+
+    /******************APP API*******************/
+    ipcMain.handle("quit", () => {
+        const { execSync } = require("child_process")
+        execSync("WallpaperAlive.exe --quit=true")
+        app.quit()
+    })
 }
 
 const cleanStagingDirectory = async () => {

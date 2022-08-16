@@ -8,9 +8,9 @@ const fs = require("fs")
 const savePath = `${__dirname}/../.config`
 
 const lock = app.requestSingleInstanceLock
-if(!lock) app.quit()
+if(!lock && app.commandLine.getSwitchValue("quit") == "true") app.quit()
 app.on('second-instance', (event, argv, workingDirectory) => {
-    if(argv.includes("--quit")) app.quit()
+    if(argv.includes("--quit=true")) app.quit()
 })
 
 const createWallpapers = (save) => {
@@ -97,7 +97,7 @@ const listenForSaveChange = (wallpapers) => {
 }
 
 const openMenu = () => {
-    if(app.commandLine.getSwitchValue("dev") == true){
+    if(app.commandLine.getSwitchValue("dev") == "true"){
         exec("cd ../config_service & npm start", (err, stdout, stderr) => {})
     }
 }

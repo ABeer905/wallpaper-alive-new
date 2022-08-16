@@ -25,6 +25,8 @@ window.addEventListener("message", e => {
                 window.workshop.submit(e.data.body)
             }
             break
+        case("quit"):
+            window.app.quit()
     }
 })
 
