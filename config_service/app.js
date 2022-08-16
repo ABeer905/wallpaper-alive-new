@@ -77,11 +77,7 @@ const loadSave = () => {
                 resolve(JSON.parse(data))
             })
         }else{
-            const save = dataTypes.save
-            fs.writeFile(savePath, JSON.stringify(save), err => {
-                if(err) { console.error(err); return; }
-                resolve(save)
-            })
+            resolve(dataTypes.save)
         }
     })
 }
