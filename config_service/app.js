@@ -3,6 +3,7 @@ const dataTypes = require('../static_global/dataTypes.json')
 const fs = require('fs')
 const path = require('path')
 const { resolve } = require('path')
+const { clear } = require('console')
 
 const savePath = path.join(path.join(__dirname, "..", ".config"))
 const stagingPath = path.join(__dirname, "publisher_staging")
@@ -113,6 +114,7 @@ const registerEventHandlers = (window, save) => {
             name: "This is a really long title test"
         }
         content.push(fake_item)
+        cleanStagingDirectory() //sticking this here because I dont want clean to start until other stuff loads
         return content
     })
     ipcMain.handle("submitWorkshopItem", async (e, item) => {
@@ -182,4 +184,16 @@ const registerEventHandlers = (window, save) => {
             }
         })
     }
+}
+
+const cleanStagingDirectory = async () => {
+    fs.readdir(stagingPath, (err, files) => {
+        if(err) console.error(err)
+        files.forEach((file) => {
+            fs.rm(path.join(stagingPath, file), 
+                  {force: true, maxRetries: 3, recursive: true, retryDelay: 5000}, (err) => {
+                    console.error(err)
+                })
+        })
+    })
 }
