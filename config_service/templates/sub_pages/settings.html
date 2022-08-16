@@ -72,8 +72,8 @@
                         </svg>
                         Keyboard Shortcut
                     </label>
-                    <input id="shortcut" type="text" class="form-control" value="Ctrl+Alt+C"/>
-                    <div class="form-text">Set a custom shortcut for opening the menu.</div>
+                    <input id="shortcut" onkeydown="setShortcut(event)" onkeyup="modifiers=[];key=''" type="text" class="form-control" value="Ctrl+Alt+C"/>
+                    <div class="form-text">Shortcuts can be a singular key plus any of Control, Shift, and Alt.</div>
                 </div>
                 <div>
                     <button class="btn btn-primary form-control" onclick="save()">Save Settings</button>

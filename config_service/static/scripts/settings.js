@@ -41,3 +41,36 @@ const alertUnsavedChanges = (resolve=false, shouldSave=false) => {
         window.top.postMessage({type: "navigation"})
     }
 }
+
+var modifiers = []
+var key = ''
+const setShortcut = (e) => {
+    e.preventDefault()
+    if(!e.repeat){
+        shortcut.value = ''
+        validateKey(e.key)
+        modifiers.forEach((mod, i) => shortcut.value += `${mod}${i < modifiers.length - 1 ? '+' : ''}`)
+        if(key) shortcut.value += `${shortcut.value == '' ? '' : '+'}${key}`
+    }
+}
+
+const validateKey = (char) => {
+    if(char == "Control"){
+        modifiers.push("Ctrl")
+    }else if (char == "Alt" || char == "Shift"){
+        modifiers.push(char)
+    }else{
+        switch(char){
+            case " ":
+                char = "Space"; break
+            case "CapsLock":
+                char = "Capslock"; break
+            case "NumLock":
+                char = "Numlock"; break
+            case "ScrollLock":
+                char = "Scrolllock"; break                
+        }
+        if(char.includes("Arrow")) char = char.replace("Arrow", '')
+        key = char.charAt(0).toUpperCase() + char.slice(1)
+    }
+}
