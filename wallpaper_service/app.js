@@ -32,7 +32,10 @@ const createWallpapers = async () => {
         windowToDisplay[win.id] = disp.id
 
         win.loadFile("index.html")
-        win.once("ready-to-show", e => win.show())
+        win.once("ready-to-show", e =>{
+            win.show()
+            win.webContents.openDevTools()
+        })
     })
 }
 
