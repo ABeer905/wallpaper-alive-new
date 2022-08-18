@@ -8,6 +8,8 @@ contextBridge.exposeInMainWorld("save", {
 })
 
 ipcRenderer.on("saveUpdated", (e, save) => setup(save))
+ipcRenderer.on("pause", (e, shouldPause) => checkPause(shouldPause))
+ipcRenderer.on("mute", (e, shouldMute) => checkMute(shouldMute))
 
 const type = (file) => {
     file = file.toLowerCase()
@@ -53,5 +55,27 @@ const setup = async (save) => {
         }
     }catch(e) {
         console.error(e)
+    }
+}
+
+const checkPause = (shouldPause) => {
+    const video = document.querySelector("video")
+    if(video){
+        if(shouldPause && !video.paused) {
+            video.pause()
+        }else if(!shouldPause && video.paused){
+            video.play()
+        }
+    }
+}
+
+const checkMute = (shouldMute) => {
+    const video = document.querySelector("video")
+    if(video){
+        if(shouldMute && !video.muted) {
+            video.muted = true
+        }else if(!shouldMute && video.muted){
+            video.muted = false
+        }
     }
 }

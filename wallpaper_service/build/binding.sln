@@ -1,19 +1,36 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nothing", "node_modules\node-addon-api\nothing.vcxproj", "{E5086223-FC1A-0DA6-CB4A-ACE3422242CB}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "windows_service", "windows_service.vcxproj", "{E22B9079-8742-5225-B78A-C6639A8C01BF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E5086223-FC1A-0DA6-CB4A-ACE3422242CB} = {E5086223-FC1A-0DA6-CB4A-ACE3422242CB}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(node_modules)", "..\node_modules", "{9D350B9E-06FB-960D-859F-B43C9597383A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(node-addon-api)", "..\node_modules\node-addon-api", "{AF891C37-E709-9CCC-0D50-0CCCC8CCC563}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
+		Debug|Win32 = Debug|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E22B9079-8742-5225-B78A-C6639A8C01BF}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E22B9079-8742-5225-B78A-C6639A8C01BF}.Debug|Win32.Build.0 = Debug|Win32
 		{E22B9079-8742-5225-B78A-C6639A8C01BF}.Release|Win32.ActiveCfg = Release|Win32
 		{E22B9079-8742-5225-B78A-C6639A8C01BF}.Release|Win32.Build.0 = Release|Win32
+		{E22B9079-8742-5225-B78A-C6639A8C01BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E22B9079-8742-5225-B78A-C6639A8C01BF}.Debug|Win32.Build.0 = Debug|Win32
+		{E5086223-FC1A-0DA6-CB4A-ACE3422242CB}.Release|Win32.ActiveCfg = Release|Win32
+		{E5086223-FC1A-0DA6-CB4A-ACE3422242CB}.Release|Win32.Build.0 = Release|Win32
+		{E5086223-FC1A-0DA6-CB4A-ACE3422242CB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E5086223-FC1A-0DA6-CB4A-ACE3422242CB}.Debug|Win32.Build.0 = Debug|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AF891C37-E709-9CCC-0D50-0CCCC8CCC563} = {9D350B9E-06FB-960D-859F-B43C9597383A}
+		{E5086223-FC1A-0DA6-CB4A-ACE3422242CB} = {AF891C37-E709-9CCC-0D50-0CCCC8CCC563}
 	EndGlobalSection
 EndGlobal

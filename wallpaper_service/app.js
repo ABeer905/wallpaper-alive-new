@@ -1,11 +1,14 @@
 const {app, BrowserWindow, Menu, Tray, ipcMain, screen} = require("electron")
 const dataTypes = require("../static_global/dataTypes.json")
-const windows = require("./build/Release/windows_service")
+const windows = require("./windows_service/windows.js")
 const { exec } = require("child_process")
-const os = require("os")
 const fs = require("fs")
 
 const savePath = `${__dirname}/../.config`
+const displayMap = {} //map display id to window for easy communication
+var appsOpen //app state of desktop
+var pauseFlag = 0
+var muteFlag = 0
 
 const lock = app.requestSingleInstanceLock
 if(!lock && app.commandLine.getSwitchValue("quit") == "true") app.quit()
@@ -41,20 +44,29 @@ const createWallpapers = (save) => {
         win.loadFile("index.html")
         win.once("ready-to-show", e => {
             windows.setWallpaper(
-                handleToInt(win.getNativeWindowHandle()),
+                win.getNativeWindowHandle(),
                 disp.bounds.x,
                 disp.bounds.y)
             win.show()
             //win.webContents.openDevTools()
         })
     })
+
     listenForSaveChange(wallpapers)
+    Object.keys(windowToDisplay).forEach(w => {
+        displayMap[windowToDisplay[w]] = parseInt(w)
+    })
 }
 
 app.enableSandbox()
 app.whenReady().then(async () => {
     const save = await loadSave()
     createWallpapers(save)
+    windows.onAppStateChange((data) => {
+        const applications = JSON.parse(data)
+        appsOpen = applications
+        updateVideoPlayer()
+    })
 
     const tray = new Tray(`${__dirname}/../static_global/brand.ico`)
     tray.setToolTip('Wallpaper Alive')
@@ -72,7 +84,10 @@ const loadSave = () => {
         if(fs.existsSync(savePath)){
             fs.readFile(savePath, 'utf8', (err, data) => {
                 if(err) { console.error(err); return; }
-                resolve(JSON.parse(data))
+                const save = JSON.parse(data)
+                pauseFlag = save.pauseOn
+                muteFlag = save.muteOn
+                resolve(save)
             })
         }else{
             const save = dataTypes.save
@@ -92,6 +107,7 @@ const listenForSaveChange = (wallpapers) => {
         lastTimestamp = Date.now()
         loadSave().then(save => {
             wallpapers.forEach(w => w.webContents.send("saveUpdated", save))
+            updateVideoPlayer()
         })
     })
 }
@@ -102,6 +118,51 @@ const openMenu = () => {
     }
 }
 
-const handleToInt = (handle) => {
-    return os.endianness() == "LE" ? handle.readInt32LE() : handle.readInt32BE()
+const updateVideoPlayer = () => {
+    if(!appsOpen) return
+
+    const pauseOn = dataTypes.pauseOn
+    const shouldPause = {}
+    Object.keys(displayMap).forEach(disp => shouldPause[disp] = false)
+
+    for(var i = 0; i < appsOpen.length; i++){
+        let app = appsOpen[i]
+        if(pauseOn.noPause == pauseFlag){
+            break
+        }else if(pauseOn.screenCover == pauseFlag && app.fullscreen){
+            const disp = screen.getDisplayNearestPoint({x: app.pos[0], y: app.pos[1]}).id
+            shouldPause[disp] = true
+        }else if(pauseOn.appOpen == pauseFlag){
+            const disp = screen.getDisplayNearestPoint({x: app.pos[0], y: app.pos[1]}).id
+            shouldPause[disp] = true
+        }else if(pauseOn.screenCoverAllMonitors == pauseFlag && app.fullscreen){
+            Object.keys(displayMap).forEach(disp => shouldPause[disp] = true)
+            break
+        }else if(pauseOn.appOpenAllMonitors == pauseFlag){
+            Object.keys(displayMap).forEach(disp => shouldPause[disp] = true)
+            break
+        }
+    }
+
+    for(var display in shouldPause){
+        BrowserWindow.fromId(displayMap[display]).webContents.send("pause", shouldPause[display])
+    }
+
+    checkMute()
+}
+
+const checkMute = () => {
+    if(!appsOpen) return
+
+    const muteOn = dataTypes.muteOn
+    var shouldMute = false
+
+    if((muteOn.appOpenOrSoundPlay == muteFlag && appsOpen.length > 0 /*&& soundIsPlaying?*/) ||
+       (muteOn.appOpen == muteFlag && appsOpen.length > 0) || 
+       (muteOn.soundPlay == muteFlag /*&& soundIsPlaying?*/)){
+            shouldMute = true
+        }
+    for(var display in displayMap){
+        BrowserWindow.fromId(displayMap[display]).webContents.send("mute", shouldMute)
+    }
 }

@@ -4,6 +4,9 @@
     <Filter Include="..">
       <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="..\windows_service">
+      <UniqueIdentifier>{D7857265-F0A0-45D4-0A9D-A184F99A3205}</UniqueIdentifier>
+    </Filter>
     <Filter Include="C:">
       <UniqueIdentifier>{7B735499-E5DD-1C2B-6C26-70023832A1CF}</UniqueIdentifier>
     </Filter>
@@ -42,8 +45,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\windows_service.cc">
-      <Filter>..</Filter>
+    <ClCompile Include="..\windows_service\windows_service.cc">
+      <Filter>..\windows_service</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src\win_delay_load_hook.cc">
       <Filter>C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src</Filter>

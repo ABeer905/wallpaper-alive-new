@@ -4,5 +4,18 @@
         "pauseOn": 0,
         "muteOn": 0,
         "autostart": false
+    },
+    "pauseOn": {
+        "screenCover": 0,
+        "screenCoverAllMonitors": 1,
+        "appOpen": 2,
+        "appOpenAllMonitors": 3,
+        "noPause": 4
+    },
+    "muteOn": {
+        "appOpenOrSoundPlay": 0,
+        "appOpen": 1,
+        "soundPlay": 2,
+        "noMute": 3
     }
 }
