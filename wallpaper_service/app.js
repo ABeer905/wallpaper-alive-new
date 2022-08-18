@@ -77,7 +77,7 @@ app.whenReady().then(async () => {
     tray.on("click", () => tray.popUpContextMenu())
 })
 
-app.on('window-all-closed', () => app.quit())
+app.on("window-all-closed", () => app.quit())
 
 const loadSave = () => {
     return new Promise((resolve) => {

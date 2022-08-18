@@ -34,19 +34,23 @@ const setup = async (save) => {
     try{
         const wallpaper = save.wallpapers[await ipcRenderer.invoke("id")]
         const wallpaperType = type(wallpaper.file)
+        const current = document.querySelector(wallpaperType)
         const mediaContainer = document.getElementById("media-container")
         blank.classList.remove("d-none")
+        const refresh = !current || (current && current.src != wallpaper.file)
 
-        const e = document.createElement(wallpaperType)
-        e.src = wallpaper.file
+        const e = refresh ? document.createElement(wallpaperType) : current
         e.classList.add("wallpaper")
         e.style.objectFit = wallpaper.fit
 
-        if(mediaContainer.firstElementChild){
-            mediaContainer.firstElementChild.src = ""
-            mediaContainer.firstElementChild.remove()
+        if(refresh) {
+            e.src = wallpaper.file
+            if(mediaContainer.firstElementChild){
+                mediaContainer.firstElementChild.src = ""
+                mediaContainer.firstElementChild.remove()
+            }
+            mediaContainer.appendChild(e)
         }
-        mediaContainer.appendChild(e)
 
         if(wallpaperType == "video"){
             e.loop = true
