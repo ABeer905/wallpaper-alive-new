@@ -7,6 +7,7 @@ const fs = require("fs")
 const savePath = `${__dirname}/../.config`
 const displayMap = {} //map display id to window for easy communication
 var appsOpen //app state of desktop
+var audioPlaying
 var pauseFlag = 0
 var muteFlag = 0
 
@@ -67,6 +68,7 @@ app.whenReady().then(async () => {
         appsOpen = applications
         updateVideoPlayer()
     })
+    pollAudioInfo()
 
     const tray = new Tray(`${__dirname}/../static_global/brand.ico`)
     tray.setToolTip('Wallpaper Alive')
@@ -151,15 +153,25 @@ const updateVideoPlayer = () => {
     checkMute()
 }
 
+const pollAudioInfo = (wallpapers) => {
+    const muteOn = dataTypes.muteOn
+    windows.initializeAudioMonitor()
+    setInterval(() => {
+        if(muteFlag == muteOn.appOpenOrSoundPlay || muteFlag.soundPlay){
+            audioPlaying = windows.isAudioPlaying()
+            checkMute()
+        }
+    }, 333)
+}
+
 const checkMute = () => {
     if(!appsOpen) return
 
     const muteOn = dataTypes.muteOn
     var shouldMute = false
-
-    if((muteOn.appOpenOrSoundPlay == muteFlag && appsOpen.length > 0 /*&& soundIsPlaying?*/) ||
+    if((muteOn.appOpenOrSoundPlay == muteFlag && (appsOpen.length > 0 || audioPlaying)) ||
        (muteOn.appOpen == muteFlag && appsOpen.length > 0) || 
-       (muteOn.soundPlay == muteFlag /*&& soundIsPlaying?*/)){
+       (muteOn.soundPlay == muteFlag && audioPlaying)){
             shouldMute = true
         }
     for(var display in displayMap){

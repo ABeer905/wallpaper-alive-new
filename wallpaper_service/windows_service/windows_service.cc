@@ -1,12 +1,17 @@
 #include "napi.h"
 #include <windows.h>
 #include <dwmapi.h>
+#include <mmdeviceapi.h>
+#include <audiopolicy.h>
+#include <endpointvolume.h>
+#include <psapi.h>
 #pragma comment (lib, "dwmapi.lib")
 
 HWND foundWindow = nullptr;
 Napi::Env env = nullptr;
 Napi::Function cb;
 std::string data;
+IAudioSessionManager2* pSessionManager;
 
 BOOL CALLBACK isWindow(HWND hwnd, LPARAM lParam){
   HWND p = FindWindowEx(hwnd, NULL, "SHELLDLL_DefView", NULL);
@@ -18,8 +23,6 @@ BOOL CALLBACK isWindow(HWND hwnd, LPARAM lParam){
 }
 
 void setWallpaper(const Napi::CallbackInfo& args) {
-  Napi::Env enva = args.Env();
-
   HWND hwnd = (HWND)(LONG_PTR)args[0].As<Napi::Number>().Int32Value();;
   POINT point = {};
   point.x = (int)args[1].As<Napi::Number>().Int32Value();
@@ -107,9 +110,73 @@ void onAppStateChange(const Napi::CallbackInfo& info) {
   }
 }
 
+void initializeAudioMonitor(const Napi::CallbackInfo& info) {
+  IMMDeviceEnumerator *pEnumerator;
+  IMMDevice *pDevice;
+  CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_INPROC_SERVER,
+                   __uuidof(IMMDeviceEnumerator),(void**)&pEnumerator);
+  pEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDevice);
+  pDevice->Activate(__uuidof(IAudioSessionManager2),CLSCTX_ALL, NULL, (void**)&pSessionManager);
+}
+
+//Returns true if an active audio state exists that is not Wallpaper Alive/Electron.
+//Note: Just because an audio state is active does not mean there is audible sound.
+//ie. a song which is playing but currently has no audio
+//Additional Note: Audio sessions tend to remain active for a few seconds after being paused
+//but closing the video immediately removes the session.
+Napi::Boolean isSystemAudioPlaying(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  IAudioSessionEnumerator* pSessionList;
+  IAudioSessionControl* pSessionControl;
+  IAudioSessionControl2* sessionControl2;
+  AudioSessionState state;
+  int sessionCount = 0;
+  bool audioPlaying = false;
+  HANDLE hProcess;
+
+  pSessionManager->GetSessionEnumerator(&pSessionList);
+  pSessionList->GetCount(&sessionCount);
+  
+  //Enumerate over audio sessions
+  for (int i = 0; i < sessionCount; i++) {
+    pSessionList->GetSession(i, &pSessionControl);
+    pSessionControl->GetState(&state);
+    //Get process id of active audio sessions
+    if(state == AudioSessionStateActive) {
+      pSessionControl->QueryInterface(__uuidof(IAudioSessionControl2), (void**)&sessionControl2);
+      DWORD id;
+      sessionControl2->GetProcessId(&id);
+      //Get process name from process id
+      hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, false, id);
+      if(hProcess != NULL){
+        HMODULE hMod;
+        DWORD cbNeeded;
+        char str[32]; 
+
+        if(EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded)){
+          GetModuleBaseName(hProcess, hMod, str, 32);
+          std::string name(str);
+          if(name != "electron.exe" && name != "WallpaperAlive.exe"){
+            audioPlaying = true;
+            break;
+          }
+        }else{
+          audioPlaying = true;
+          break;
+        }
+      }
+    }
+  }
+
+  CloseHandle(hProcess); 
+  return Napi::Boolean::New(env, audioPlaying);
+}
+
 Napi::Object Initialize(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "setWallpaper"), Napi::Function::New(env, setWallpaper));
   exports.Set(Napi::String::New(env, "onAppStateChange"), Napi::Function::New(env, onAppStateChange));
+  exports.Set(Napi::String::New(env, "initializeAudioMonitor"), Napi::Function::New(env, initializeAudioMonitor));
+  exports.Set(Napi::String::New(env, "isSystemAudioPlaying"), Napi::Function::New(env, isSystemAudioPlaying));
   return exports;
 }
 

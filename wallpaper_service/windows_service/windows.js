@@ -13,6 +13,9 @@ if(isMainThread){
         const worker = new Worker(__filename);
         worker.on('message', (message) => func(message))
     }
+
+    exports.initializeAudioMonitor = () => windows_cc.initializeAudioMonitor()
+    exports.isAudioPlaying = () => windows_cc.isSystemAudioPlaying()
 }else{
     windows_cc.onAppStateChange((data) => parentPort.postMessage(data))
 }
