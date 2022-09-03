@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nothing", "node_modules\node-addon-api\nothing.vcxproj", "{040C36FD-8FB4-267A-BFE7-A7072CB50C61}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "steam_service", "steam_service.vcxproj", "{F5772FBE-8B61-C468-5AD8-5393FF1B88AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{040C36FD-8FB4-267A-BFE7-A7072CB50C61} = {040C36FD-8FB4-267A-BFE7-A7072CB50C61}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(node_modules)", "..\node_modules", "{9D350B9E-06FB-960D-859F-B43C9597383A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(node-addon-api)", "..\node_modules\node-addon-api", "{AF891C37-E709-9CCC-0D50-0CCCC8CCC563}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{040C36FD-8FB4-267A-BFE7-A7072CB50C61}.Debug|x64.ActiveCfg = Debug|x64
+		{040C36FD-8FB4-267A-BFE7-A7072CB50C61}.Debug|x64.Build.0 = Debug|x64
+		{040C36FD-8FB4-267A-BFE7-A7072CB50C61}.Release|x64.ActiveCfg = Release|x64
+		{040C36FD-8FB4-267A-BFE7-A7072CB50C61}.Release|x64.Build.0 = Release|x64
+		{F5772FBE-8B61-C468-5AD8-5393FF1B88AE}.Debug|x64.ActiveCfg = Debug|x64
+		{F5772FBE-8B61-C468-5AD8-5393FF1B88AE}.Debug|x64.Build.0 = Debug|x64
+		{F5772FBE-8B61-C468-5AD8-5393FF1B88AE}.Release|x64.ActiveCfg = Release|x64
+		{F5772FBE-8B61-C468-5AD8-5393FF1B88AE}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AF891C37-E709-9CCC-0D50-0CCCC8CCC563} = {9D350B9E-06FB-960D-859F-B43C9597383A}
+		{040C36FD-8FB4-267A-BFE7-A7072CB50C61} = {AF891C37-E709-9CCC-0D50-0CCCC8CCC563}
+	EndGlobalSection
+EndGlobal

@@ -7,37 +7,25 @@
     <Filter Include="..\windows_service">
       <UniqueIdentifier>{D7857265-F0A0-45D4-0A9D-A184F99A3205}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:">
-      <UniqueIdentifier>{7B735499-E5DD-1C2B-6C26-70023832A1CF}</UniqueIdentifier>
+    <Filter Include="D:">
+      <UniqueIdentifier>{E5D29F2B-0177-9942-CA95-0FF700094F89}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users">
-      <UniqueIdentifier>{E9F714C1-DA89-54E2-60CF-39FEB20BF756}</UniqueIdentifier>
+    <Filter Include="D:\VSCodeSource">
+      <UniqueIdentifier>{ACBF35E2-C444-70E4-F67C-BBF2FA606FCB}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users\C284101">
-      <UniqueIdentifier>{BE9B85A2-899C-5E26-B4FC-671D6EDCED7B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated">
-      <UniqueIdentifier>{5AB320C6-E61C-DA73-3F34-B7953B13A81B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents">
-      <UniqueIdentifier>{87566BA0-CA33-1144-65F5-087C5F9D6C20}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source">
-      <UniqueIdentifier>{EE81CE0D-B4E0-B69D-515A-7A4BA0D81D36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new">
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new">
       <UniqueIdentifier>{F36757A2-27B4-4342-148E-AC7C8EC41325}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service">
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\wallpaper_service">
       <UniqueIdentifier>{7EFB4214-601E-7F5D-5FD7-AA953C0FC3E2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules">
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\wallpaper_service\node_modules">
       <UniqueIdentifier>{56DF7A98-063D-FB9D-485C-089023B4C16A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp">
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp">
       <UniqueIdentifier>{77348C0E-2034-7791-74D5-63C077DF5A3B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src">
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src">
       <UniqueIdentifier>{8CDEE807-BC53-E450-C8B8-4DEBB66742D4}</UniqueIdentifier>
     </Filter>
     <Filter Include="..">
@@ -48,8 +36,8 @@
     <ClCompile Include="..\windows_service\windows_service.cc">
       <Filter>..\windows_service</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src\win_delay_load_hook.cc">
-      <Filter>C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src</Filter>
+    <ClCompile Include="D:\VSCodeSource\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src\win_delay_load_hook.cc">
+      <Filter>D:\VSCodeSource\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src</Filter>
     </ClCompile>
     <None Include="..\binding.gyp">
       <Filter>..</Filter>

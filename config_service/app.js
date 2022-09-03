@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, screen, shell } = require('electron')
 const dataTypes = require('../static_global/dataTypes.json')
+const steam = require('./build/Release/steam_service')
 const fs = require('fs')
 const path = require('path')
 
@@ -107,15 +108,37 @@ const registerEventHandlers = (window, save) => {
     }
 
     /****************WORKSHOP API****************/
-    ipcMain.handle("getWorkshopItems", e => {
+    ipcMain.handle("getWorkshopItems", async e => {
+        try { cleanStagingDirectory() } catch(e) {}
+
         const content = []
-        fake_item = {
-            file: "C:\\Users\\C284101\\Downloads\\item-test.gif",
-            preview: "C:\\Users\\C284101\\Downloads\\item-test.gif",
-            name: "This is a really long title test"
+        if(steam.SteamInit()){
+            const res = steam.GetInstalledContent()
+            const files = res.split("?f=").filter(element => element)
+            if(files.length == 0) return false
+
+            await new Promise((resolve) => {
+                files.forEach((dir, index, arr) => {
+                    let item = {name: "", preview: "", file: ""}
+                    fs.readdir(dir, (err, dirFiles) => {
+                        dirFiles.forEach((file) => {
+                            if(file.includes("preview.")){
+                                item.preview = path.join(dir, file)
+                            }else if(file == "info.json"){
+                                const info = JSON.parse(fs.readFileSync(path.join(dir, file)))
+                                item.name = info.title
+                            }else{
+                                item.file = path.join(dir, file)
+                            }
+                        })
+                        content.push(item)
+                        if (index === arr.length -1) resolve();
+                    })
+                })
+            })
+        }else{
+            window.webContents.send("alert", ["Not connected to Steam", true])
         }
-        content.push(fake_item)
-        cleanStagingDirectory() //sticking this here because I dont want clean to start until other stuff loads
         return content
     })
     ipcMain.handle("submitWorkshopItem", async (e, item) => {
@@ -197,6 +220,7 @@ const registerEventHandlers = (window, save) => {
 const cleanStagingDirectory = async () => {
     fs.readdir(stagingPath, (err, files) => {
         if(err) console.error(err)
+        if(!files) return;
         files.forEach((file) => {
             fs.rm(path.join(stagingPath, file), 
                   {force: true, maxRetries: 3, recursive: true, retryDelay: 5000}, (err) => {

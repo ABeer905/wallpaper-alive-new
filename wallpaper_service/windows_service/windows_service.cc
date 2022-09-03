@@ -50,6 +50,7 @@ BOOL isWindowFullscreen(HWND hwnd) {
     return (GetWindowRect(hwnd, &rect) && mon.rcMonitor.left == rect.left && mon.rcMonitor.top == rect.top
             && mon.rcMonitor.right == rect.right && mon.rcMonitor.bottom == rect.bottom);
   }
+  return false;
 }
 
 BOOL IsWindowCloaked(HWND hwnd) {

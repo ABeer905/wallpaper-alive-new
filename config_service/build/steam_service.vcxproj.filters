@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="..">
+      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\steam_service">
+      <UniqueIdentifier>{6F03DDBA-FF64-A5F4-AC47-2A930ED2E57E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:">
+      <UniqueIdentifier>{E5D29F2B-0177-9942-CA95-0FF700094F89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource">
+      <UniqueIdentifier>{ACBF35E2-C444-70E4-F67C-BBF2FA606FCB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new">
+      <UniqueIdentifier>{F36757A2-27B4-4342-148E-AC7C8EC41325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\config_service">
+      <UniqueIdentifier>{A8D6097D-3A20-ED43-E9D5-26322ECB6F79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\config_service\node_modules">
+      <UniqueIdentifier>{56DF7A98-063D-FB9D-485C-089023B4C16A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\config_service\node_modules\node-gyp">
+      <UniqueIdentifier>{77348C0E-2034-7791-74D5-63C077DF5A3B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\config_service\node_modules\node-gyp\src">
+      <UniqueIdentifier>{8CDEE807-BC53-E450-C8B8-4DEBB66742D4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:">
+      <UniqueIdentifier>{E5D29F2B-0177-9942-CA95-0FF700094F89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource">
+      <UniqueIdentifier>{ACBF35E2-C444-70E4-F67C-BBF2FA606FCB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new">
+      <UniqueIdentifier>{F36757A2-27B4-4342-148E-AC7C8EC41325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\config_service">
+      <UniqueIdentifier>{A8D6097D-3A20-ED43-E9D5-26322ECB6F79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\config_service\steam_service">
+      <UniqueIdentifier>{6F03DDBA-FF64-A5F4-AC47-2A930ED2E57E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D:\VSCodeSource\wallpaper-alive-new\config_service\steam_service\steam_sdk">
+      <UniqueIdentifier>{28651445-749B-2CF0-0ECA-EF1322134421}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\steam_service\steam_service.cc">
+      <Filter>..\steam_service</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\VSCodeSource\wallpaper-alive-new\config_service\node_modules\node-gyp\src\win_delay_load_hook.cc">
+      <Filter>D:\VSCodeSource\wallpaper-alive-new\config_service\node_modules\node-gyp\src</Filter>
+    </ClCompile>
+    <None Include="..\binding.gyp">
+      <Filter>..</Filter>
+    </None>
+    <None Include="D:\VSCodeSource\wallpaper-alive-new\config_service\steam_service\steam_sdk\steam_api64.dll">
+      <Filter>D:\VSCodeSource\wallpaper-alive-new\config_service\steam_service\steam_sdk</Filter>
+    </None>
+  </ItemGroup>
+</Project>

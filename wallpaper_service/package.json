@@ -22,5 +22,8 @@
   "devDependencies": {
     "electron": "^20.0.2",
     "electron-rebuild": "^3.2.9"
+  },
+  "dependencies": {
+    "node-addon-api": "^5.0.0"
   }
 }

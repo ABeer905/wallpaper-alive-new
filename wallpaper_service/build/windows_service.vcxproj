@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
+    <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
+    <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E22B9079-8742-5225-B78A-C6639A8C01BF}</ProjectGuid>
+    <ProjectGuid>{0F07FA8A-894A-91C1-0D22-88D2B3422760}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>windows_service</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
@@ -36,18 +36,18 @@
     <ExecutablePath>$(ExecutablePath);$(MSBuildProjectDirectory)\..\bin\;$(MSBuildProjectDirectory)\..\bin\</ExecutablePath>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <IntDir>$(Configuration)\obj\$(ProjectName)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.node</TargetExt>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.node</TargetExt>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.node</TargetExt>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.node</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.node</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.node</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.node</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.node</TargetExt>
     <TargetName>$(ProjectName)</TargetName>
     <TargetPath>$(OutDir)\$(ProjectName).node</TargetPath>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\C284101\.electron-gyp\20.0.2\include\node;C:\Users\C284101\.electron-gyp\20.0.2\src;C:\Users\C284101\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\C284101\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\C284101\.electron-gyp\20.0.2\deps\uv\include;C:\Users\C284101\.electron-gyp\20.0.2\deps\zlib;C:\Users\C284101\.electron-gyp\20.0.2\deps\v8\include;C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\theal\.electron-gyp\20.0.2\include\node;C:\Users\theal\.electron-gyp\20.0.2\src;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\theal\.electron-gyp\20.0.2\deps\uv\include;C:\Users\theal\.electron-gyp\20.0.2\deps\zlib;C:\Users\theal\.electron-gyp\20.0.2\deps\v8\include;D:\VSCodeSource\wallpaper-alive-new\wallpaper_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -59,7 +59,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=windows_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=windows_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_ENABLE_SANDBOX;V8_SANDBOXED_POINTERS;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <StringPooling>true</StringPooling>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -67,23 +67,23 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\C284101\\.electron-gyp\\20.0.2\\ia32\\node.lib&quot;</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\theal\\.electron-gyp\\20.0.2\\x64\\node.lib&quot;</AdditionalDependencies>
       <AdditionalOptions>/ignore:4199 %(AdditionalOptions)</AdditionalOptions>
       <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(ProjectName).node</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetExt>.node</TargetExt>
-      <TargetMachine>MachineX86</TargetMachine>
+      <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>C:\Users\C284101\.electron-gyp\20.0.2\include\node;C:\Users\C284101\.electron-gyp\20.0.2\src;C:\Users\C284101\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\C284101\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\C284101\.electron-gyp\20.0.2\deps\uv\include;C:\Users\C284101\.electron-gyp\20.0.2\deps\zlib;C:\Users\C284101\.electron-gyp\20.0.2\deps\v8\include;C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=windows_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\theal\.electron-gyp\20.0.2\include\node;C:\Users\theal\.electron-gyp\20.0.2\src;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\theal\.electron-gyp\20.0.2\deps\uv\include;C:\Users\theal\.electron-gyp\20.0.2\deps\zlib;C:\Users\theal\.electron-gyp\20.0.2\deps\v8\include;D:\VSCodeSource\wallpaper-alive-new\wallpaper_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=windows_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_ENABLE_SANDBOX;V8_SANDBOXED_POINTERS;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\C284101\.electron-gyp\20.0.2\include\node;C:\Users\C284101\.electron-gyp\20.0.2\src;C:\Users\C284101\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\C284101\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\C284101\.electron-gyp\20.0.2\deps\uv\include;C:\Users\C284101\.electron-gyp\20.0.2\deps\zlib;C:\Users\C284101\.electron-gyp\20.0.2\deps\v8\include;C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\theal\.electron-gyp\20.0.2\include\node;C:\Users\theal\.electron-gyp\20.0.2\src;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\theal\.electron-gyp\20.0.2\deps\uv\include;C:\Users\theal\.electron-gyp\20.0.2\deps\zlib;C:\Users\theal\.electron-gyp\20.0.2\deps\v8\include;D:\VSCodeSource\wallpaper-alive-new\wallpaper_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
@@ -97,7 +97,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=windows_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=windows_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_ENABLE_SANDBOX;V8_SANDBOXED_POINTERS;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <StringPooling>true</StringPooling>
@@ -106,18 +106,18 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\C284101\\.electron-gyp\\20.0.2\\ia32\\node.lib&quot;</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\theal\\.electron-gyp\\20.0.2\\x64\\node.lib&quot;</AdditionalDependencies>
       <AdditionalOptions>/ignore:4199 %(AdditionalOptions)</AdditionalOptions>
       <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(ProjectName).node</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetExt>.node</TargetExt>
-      <TargetMachine>MachineX86</TargetMachine>
+      <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>C:\Users\C284101\.electron-gyp\20.0.2\include\node;C:\Users\C284101\.electron-gyp\20.0.2\src;C:\Users\C284101\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\C284101\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\C284101\.electron-gyp\20.0.2\deps\uv\include;C:\Users\C284101\.electron-gyp\20.0.2\deps\zlib;C:\Users\C284101\.electron-gyp\20.0.2\deps\v8\include;C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=windows_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\theal\.electron-gyp\20.0.2\include\node;C:\Users\theal\.electron-gyp\20.0.2\src;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\theal\.electron-gyp\20.0.2\deps\uv\include;C:\Users\theal\.electron-gyp\20.0.2\deps\zlib;C:\Users\theal\.electron-gyp\20.0.2\deps\v8\include;D:\VSCodeSource\wallpaper-alive-new\wallpaper_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=windows_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_ENABLE_SANDBOX;V8_SANDBOXED_POINTERS;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -127,11 +127,11 @@
     <ClCompile Include="..\windows_service\windows_service.cc">
       <ObjectFileName>$(IntDir)\windows_service\windows_service.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="C:\Users\C284101\OneDrive - Thomson Reuters Incorporated\Documents\Tr Vsc Source\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src\win_delay_load_hook.cc"/>
+    <ClCompile Include="D:\VSCodeSource\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src\win_delay_load_hook.cc"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="node_modules\node-addon-api\nothing.vcxproj">
-      <Project>{E5086223-FC1A-0DA6-CB4A-ACE3422242CB}</Project>
+      <Project>{EC682E52-40D9-3F09-6545-1978F140027E}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
