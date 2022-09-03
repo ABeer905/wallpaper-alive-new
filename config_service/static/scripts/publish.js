@@ -1,4 +1,7 @@
 const info = new bootstrap.Modal(document.getElementById("submitModal"))
+document.getElementById("submitModal").addEventListener("hide.bs.modal", () => {
+    document.getElementById("upload-form").reset()
+})
 
 window.onmessage = (e) => {
     if(e.data.type == "workshopStatusUpdate"){
@@ -51,3 +54,8 @@ const submitItem = () => {
     info.show()
     window.top.postMessage({type: "workshop", method: "submit", body: item})
 }
+
+const openItem = (btn) => {
+    window.top.postMessage({type: "workshop", method: "open", body: btn.dataset.workshopID })
+}
+

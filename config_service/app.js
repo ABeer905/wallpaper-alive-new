@@ -3,6 +3,7 @@ const dataTypes = require('../static_global/dataTypes.json')
 const steam = require('./build/Release/steam_service')
 const fs = require('fs')
 const path = require('path')
+const { exec } = require("child_process")
 
 const savePath = path.join(path.join(__dirname, "..", ".config"))
 const stagingPath = path.join(__dirname, "publisher_staging")
@@ -87,7 +88,7 @@ const loadSave = () => {
 const registerEventHandlers = (window, save) => {
     /******************WEB API*******************/
     ipcMain.handle("webContentsRequested", (e, nav) => {
-        if(validURLS.includes(nav)) shell.openExternal(nav)
+        if(validURLS.includes(nav) || nav.includes("steam://url/CommunityFilePage/")) shell.openExternal(nav)
     })
 
     /******************SAVE API******************/
@@ -119,9 +120,9 @@ const registerEventHandlers = (window, save) => {
 
             await new Promise((resolve) => {
                 files.forEach((dir, index, arr) => {
-                    let item = {name: "", preview: "", file: ""}
+                    let item = {name: "", preview: "", file: "", meta: ""}
                     fs.readdir(dir, (err, dirFiles) => {
-                        dirFiles.forEach((file) => {
+                        dirFiles.forEach(async (file) => {
                             if(file.includes("preview.")){
                                 item.preview = path.join(dir, file)
                             }else if(file == "info.json"){
@@ -129,6 +130,7 @@ const registerEventHandlers = (window, save) => {
                                 item.name = info.title
                             }else{
                                 item.file = path.join(dir, file)
+                                item.meta = await metaData(path.join(dir, file))
                             }
                         })
                         content.push(item)
@@ -142,6 +144,9 @@ const registerEventHandlers = (window, save) => {
         return content
     })
     ipcMain.handle("submitWorkshopItem", async (e, item) => {
+        if(item.title.length > 128) window.webContents.send("alert", ["Title too long", true])
+        if(item.desc.length > 8000) window.webContents.send("alert", ["Description too long", true])
+
         const stageName = (Math.floor(100000 + Math.random() * 900000)).toString()
         const stage = await new Promise((resolve) => {
             fs.mkdir(path.join(stagingPath, stageName), {recursive: true}, (err, path) => {
@@ -164,11 +169,24 @@ const registerEventHandlers = (window, save) => {
         })
         window.webContents.send("workshopStatus", "staging")
         
-        await generateThumbnail(item.file, stage)
+        const thumbnail = await generateThumbnail(item.file, stage)
         window.webContents.send("workshopStatus", "thumbnail")
 
-        //TODO: post stage to Steam. Delete timeout.
-        setTimeout(() => window.webContents.send("workshopStatus", ["complete", "#"]), 3000)
+        const res = steam.CreateItem(async (status_msg) => {
+            if(status_msg == true){
+                const meta = await metaData(item.file)
+                let tags = item.tags.replace(" ", "")
+                tags = item.tags.split(",")
+                const fileID = steam.UploadItem(item.title, item.desc, tags, stage, thumbnail, meta.type, meta.res)
+                window.webContents.send("workshopStatus", ["complete", fileID])
+            }else{
+                window.webContents.send("alert", [status_msg, true])
+            }
+        })
+
+        if(!res){
+            window.webContents.send("alert", ["Not connected to Steam", true])
+        }
     })
     const type = (file) => {
         file = file.toLowerCase()
@@ -190,20 +208,54 @@ const registerEventHandlers = (window, save) => {
     }
     const generateThumbnail = (file, destination) => {
         const fileType = type(file)
-        const { exec } = require("child_process")
         return new Promise((resolve) => {
             if(fileType == "video") {
                 exec(`ffmpeg\\ffmpeg -t 8 -i "${file}" -vf "fps=10,scale=200:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "${destination}\\preview.gif"`,
                     (error, stdout, stderr) => {
                         if(error) { console.error(error); return }
-                        if(stderr) { resolve() }
+                        if(stderr) { resolve(`${destination}\\preview.gif`) }
                     })
             }else if(fileType == "image"){
                 const fileEnding = file.substring(file.lastIndexOf(".") + 1)
                 exec(`ffmpeg\\ffmpeg -i "${file}" -vf scale=200:-1 "${destination}\\preview.${fileEnding}"`,
                 (error, stdout, stderr) => {
                     if(error) { console.error(error); return }
-                    if(stderr) { resolve() }
+                    if(stderr) { resolve(`${destination}\\preview.${fileEnding}`) }
+                })
+            }
+        })
+    }
+    const metaData = (file) => {
+        const fileType = type(file)
+        return new Promise((resolve) => {
+            const meta = {type: fileType}
+            exec(`ffmpeg\\ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "${file}"`,
+            (error, stdout, stderr) => {
+                if(error) { console.error(error); return }
+                if(stderr) { console.error(stderr); return }
+                if(stdout.includes("1920x1080")){
+                    meta.res = "1080p"
+                }else if(stdout.includes("3840x2160")){
+                    meta.res = "4k"
+                }else if(stdout.includes("2560x1440")){
+                    meta.res = "1440p"
+                }else{
+                    meta.res = "Other"
+                }
+                if((meta.hasOwnProperty("frameRate") && fileType == "video") ||fileType != "video") resolve(meta)
+            })
+            if(fileType == "video"){
+                exec(`ffmpeg\\ffprobe -v error -select_streams v -of default=noprint_wrappers=1:nokey=1 -show_entries stream=r_frame_rate "${file}"`,
+                (error, stdout, stderr) => {
+                    if(error) { console.error(error); return }
+                    if(stderr) { console.error(stderr); return }
+                    if(stdout){
+                        const div = stdout.indexOf("/")
+                        meta.frameRate = parseInt(parseInt(stdout.substring(0, div)) / parseInt(stdout.substring(div+1)))
+                    }else{
+                        meta.frameRate = false
+                    }
+                    if(meta.hasOwnProperty("res")) resolve(meta)
                 })
             }
         })

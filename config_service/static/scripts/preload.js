@@ -12,7 +12,8 @@ contextBridge.exposeInMainWorld("config", {
 
 contextBridge.exposeInMainWorld("workshop", {
     "get": () => ipcRenderer.invoke("getWorkshopItems"),
-    "submit": (item) => ipcRenderer.invoke("submitWorkshopItem", item)
+    "submit": (item) => ipcRenderer.invoke("submitWorkshopItem", item),
+    "open": (id) => ipcRenderer.invoke("webContentsRequested", `steam://url/CommunityFilePage/${id}`)
 })
 
 contextBridge.exposeInMainWorld("app", {

@@ -108,52 +108,35 @@ Napi::Boolean CreateItem(const Napi::CallbackInfo& info) {
   }
 }
 
-/*
-void UploadItem(const Napi::CallbackInfo& info){
-  env = info.Env();
-  v8::String::Utf8Value title(iso, args[0]);
-  v8::String::Utf8Value description(iso, args[1]);
-  v8::String::Utf8Value file(iso, args[2]);
-  v8::String::Utf8Value file_preview(iso, args[3]);
-  v8::String::Utf8Value res(iso, args[4]);
-  v8::String::Utf8Value type(iso, args[5]);
-  int tag = (int)args[6].As<Number>()->Value();
+Napi::Number UploadItem(const Napi::CallbackInfo& info){
+  Napi::Env enva = info.Env();
 
-  std::string resTmp(*res);
-  std::string typeTmp(*type);
-  const char* resStr = resTmp.c_str();
-  const char* typeStr = typeTmp.c_str();
-  if(!(strcmp(resStr, "1080p") == 0 || strcmp(resStr, "2.7k") == 0 || strcmp(resStr, "4k") == 0 || strcmp(resStr, "Other") == 0)){
-    return;
+  std::vector<const char*> tag_list;
+  Napi::Array tags = info[2].As<Napi::Array>();
+  tag_list.push_back(((std::string)info[5].As<Napi::String>()).c_str());
+  tag_list.push_back(((std::string)info[6].As<Napi::String>()).c_str());
+  for(size_t i = 0; i < tags.Length(); i++){
+    tag_list.push_back(Napi::Value(tags[i]).ToString().Utf8Value().c_str());
   }
-  if(!(strcmp(typeStr, "Gif") == 0 || strcmp(typeStr, "Image") == 0 || strcmp(typeStr, "Video") == 0)){
-    return;
-  }
-  std::vector<const char*> tag_list = GetTagList(resStr, typeStr, tag);
-
-
-  const char** list = tag_list.data();
   const SteamParamStringArray_t stringParams = {
-    list,
+    tag_list.data(),
     tag_list.size()
   };
 
   //Update the created item with our values.
   updateHandle = SteamUGC()->StartItemUpdate(2003310, publishField);
-  SteamUGC()->SetItemTitle( updateHandle, *title );
-  SteamUGC()->SetItemDescription( updateHandle, *description );
-  SteamUGC()->SetItemVisibility( updateHandle, k_ERemoteStoragePublishedFileVisibilityPublic);
-  SteamUGC()->SetItemContent( updateHandle, *file);
-  SteamUGC()->SetItemPreview( updateHandle, *file_preview);
+  SteamUGC()->SetItemTitle( updateHandle, ((std::string)info[0].As<Napi::String>()).c_str());
+  SteamUGC()->SetItemDescription( updateHandle, ((std::string)info[1].As<Napi::String>()).c_str());
   SteamUGC()->SetItemTags( updateHandle, &stringParams);
+  SteamUGC()->SetItemContent( updateHandle, ((std::string)info[3].As<Napi::String>()).c_str());
+  SteamUGC()->SetItemPreview( updateHandle, ((std::string)info[4].As<Napi::String>()).c_str());
+  SteamUGC()->SetItemVisibility( updateHandle, k_ERemoteStoragePublishedFileVisibilityPublic);
   SteamUGC()->SubmitItemUpdate( updateHandle, "Initial Upload");
-
-  Local<Number> num = Number::New(iso, (uint64)publishField);
-  args.GetReturnValue().Set(num);
-}*/
+  return Napi::Number::New(enva, publishField);
+}
 
 Napi::String GetInstalledContent(const Napi::CallbackInfo& args){
-    Napi::Env enva = args.Env();
+  Napi::Env enva = args.Env();
   if(SteamInitialized) {
     uint32 num_subscribed = SteamUGC()->GetNumSubscribedItems();
     PublishedFileId_t* publishedFiles = new PublishedFileId_t[num_subscribed*sizeof(PublishedFileId_t)];
@@ -177,13 +160,14 @@ Napi::String GetInstalledContent(const Napi::CallbackInfo& args){
     const char* ret = result.c_str();
     return Napi::String::New(enva, result);
   }
+  return Napi::String::New(enva, "");
 }
 
 Napi::Object Initialize(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "SteamInit"), Napi::Function::New(env, SteamInit));
   exports.Set(Napi::String::New(env, "UnlockAchievement"), Napi::Function::New(env, UnlockAchievement));
   exports.Set(Napi::String::New(env, "CreateItem"), Napi::Function::New(env, CreateItem));
-  //exports.Set(Napi::String::New(env, "UploadItem"), Napi::Function::New(env, UploadItem));
+  exports.Set(Napi::String::New(env, "UploadItem"), Napi::Function::New(env, UploadItem));
   exports.Set(Napi::String::New(env, "GetInstalledContent"), Napi::Function::New(env, GetInstalledContent));
   exports.Set(Napi::String::New(env, "SteamShutdown"), Napi::Function::New(env, SteamShutdown));
   return exports;

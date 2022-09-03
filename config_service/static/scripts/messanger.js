@@ -23,6 +23,8 @@ window.addEventListener("message", e => {
                 })
             }else if(e.data.method == "submit"){
                 window.workshop.submit(e.data.body)
+            }else{
+                window.workshop.open(e.data.body)
             }
             break
         case("quit"):
