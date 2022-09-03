@@ -57,7 +57,7 @@ const createWindow = async (splashWindow) => {
     mainWindow.once("ready-to-show", e => {
         splashWindow.close()
         mainWindow.show()
-        //mainWindow.webContents.openDevTools()
+        mainWindow.webContents.openDevTools()
     })
 
     app.on("second-instance", () => {
@@ -120,7 +120,7 @@ const registerEventHandlers = (window, save) => {
 
             await new Promise((resolve) => {
                 files.forEach((dir, index, arr) => {
-                    let item = {name: "", preview: "", file: "", meta: ""}
+                    let item = {name: "", preview: "", file: ""}
                     fs.readdir(dir, (err, dirFiles) => {
                         dirFiles.forEach(async (file) => {
                             if(file.includes("preview.")){
@@ -130,7 +130,6 @@ const registerEventHandlers = (window, save) => {
                                 item.name = info.title
                             }else{
                                 item.file = path.join(dir, file)
-                                item.meta = await metaData(path.join(dir, file))
                             }
                         })
                         content.push(item)
@@ -143,6 +142,7 @@ const registerEventHandlers = (window, save) => {
         }
         return content
     })
+    ipcMain.handle("meta", async (e, file) => await metaData(file))
     ipcMain.handle("submitWorkshopItem", async (e, item) => {
         if(item.title.length > 128) window.webContents.send("alert", ["Title too long", true])
         if(item.desc.length > 8000) window.webContents.send("alert", ["Description too long", true])

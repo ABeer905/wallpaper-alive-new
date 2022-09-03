@@ -8,6 +8,12 @@ window.top.postMessage({type: "workshop", method: "get"})
 window.onmessage = (e) => {
     if(e.data.type == "save") { displayConfig(e.data.data) }
     else if(e.data.type == "workshop") { displayWorkshopItems(e.data.data) }
+    else if(e.data.type == "meta") {
+        console.log(e.data)
+        document.getElementById("type").innerText = e.data.data.type
+        document.getElementById("res").innerText = e.data.data.res
+        document.getElementById("fps").innerText = e.data.data.hasOwnProperty("frameRate") ? ` | ${e.data.data.frameRate} FPS` : ""
+    }
 }
 
 fileUpload.oninput = e => { configureNewWallpaper(fileUpload.files[0].path) }
@@ -177,13 +183,13 @@ const configureNewWallpaper = (file, name=null) => {
     startPreview(fileType)
 
     document.getElementById("file-name").innerText = name ? name : nameFromFile(file)
-    document.getElementById("file-type").innerText = type(file)
     document.getElementById("display-select").children[0].selected = "selected"
     document.getElementById("wallpaper-modal").dataset.mode = "add"
     document.getElementById("object-fit").children[0].selected = "selected"
     volume.value = "100"
     document.getElementById("vol-level").innerText = "100"
     wallpaperModal.show()
+    window.top.postMessage({type: "meta", body: file })
 }
 
 const editWallpaper = () => {
@@ -202,12 +208,12 @@ const getSettingsForDisplay = (disp) => {
         })
         document.getElementById("file-name").innerText = settings.save.wallpapers[disp].name
         const fileType = type(settings.save.wallpapers[disp].file)
-        document.getElementById("file-type").innerText = fileType
         document.getElementById(`preview-${fileType}`).src = settings.save.wallpapers[disp].file
         startPreview(fileType)
         volume.value = settings.save.wallpapers[disp].volume
         document.getElementById("vol-level").innerText = settings.save.wallpapers[disp].volume
         document.getElementById("preview-video").volume = parseInt(volume.value) / 100
+        window.top.postMessage({type: "meta", body: settings.save.wallpapers[disp].file })
     }
 }
 

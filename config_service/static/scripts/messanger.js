@@ -27,6 +27,9 @@ window.addEventListener("message", e => {
                 window.workshop.open(e.data.body)
             }
             break
+        case("meta"):
+            window.meta.getInfo(e.data.body).then(res => iframe.contentWindow.postMessage({type: "meta", data: res}))
+            break
         case("quit"):
             window.app.quit()
     }

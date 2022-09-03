@@ -16,6 +16,10 @@ contextBridge.exposeInMainWorld("workshop", {
     "open": (id) => ipcRenderer.invoke("webContentsRequested", `steam://url/CommunityFilePage/${id}`)
 })
 
+contextBridge.exposeInMainWorld("meta", {
+    "getInfo": (file) => ipcRenderer.invoke("meta", file)
+})
+
 contextBridge.exposeInMainWorld("app", {
     "quit": () => ipcRenderer.invoke("quit")
 })
