@@ -226,14 +226,14 @@ const registerEventHandlers = (window, save) => {
         const fileType = type(file)
         return new Promise((resolve) => {
             if(fileType == "video") {
-                exec(`${ffmpeg} -t 8 -i "${file}" -vf "fps=10,scale=200:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "${destination}\\preview.gif"`,
+                exec(`${ffmpeg} -t 8 -i "${file}" -vf "fps=10,scale=350:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "${destination}\\preview.gif"`,
                     (error, stdout, stderr) => {
                         if(error) { console.error(error); return }
                         if(stderr) { resolve(`${destination}\\preview.gif`) }
                     })
             }else if(fileType == "image"){
                 const fileEnding = file.substring(file.lastIndexOf(".") + 1)
-                exec(`${ffmpeg} -i "${file}" -vf scale=200:-1 "${destination}\\preview.${fileEnding}"`,
+                exec(`${ffmpeg} -i "${file}" -vf scale=350:-1 "${destination}\\preview.${fileEnding}"`,
                 (error, stdout, stderr) => {
                     if(error) { console.error(error); return }
                     if(stderr) { resolve(`${destination}\\preview.${fileEnding}`) }

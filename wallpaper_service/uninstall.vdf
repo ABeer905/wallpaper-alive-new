@@ -1,0 +1,11 @@
+"InstallScript"
+{
+	"Run Process On Uninstall"
+	{
+		"uni"
+		{
+			"process 1"		"wallpaper_service/WallpaperAlive.exe"
+			"command 1"		"--quit=true"
+		}
+	}
+}
