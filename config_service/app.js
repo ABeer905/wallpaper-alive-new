@@ -57,7 +57,7 @@ const createWindow = async (splashWindow) => {
     mainWindow.once("ready-to-show", e => {
         splashWindow.close()
         mainWindow.show()
-        mainWindow.webContents.openDevTools()
+        //mainWindow.webContents.openDevTools()
     })
 
     app.on("second-instance", () => {
@@ -99,6 +99,12 @@ const registerEventHandlers = (window, save) => {
     })
     ipcMain.handle("autostart", (e, on) => {
         save.save.autostart = on
+        const AutoLaunch = require('auto-launch');
+        const wallpaperAutoStart = new AutoLaunch({
+            name: 'WallpaperAlive',
+            path: path.join(__dirname, "..", "wallpaper_service", "WallpaperAlive.exe"),
+        })
+        on ? wallpaperAutoStart.enable() : wallpaperAutoStart.disable()
         write(`Autostart was turned ${on ? "on": "off"}.`)
     })
     const write = (msg=null, danger=false) => {
