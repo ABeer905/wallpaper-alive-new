@@ -20,6 +20,11 @@ fileUpload.oninput = e => { configureNewWallpaper(fileUpload.files[0].path) }
 
 volume.oninput = (e) => {
     document.getElementById("vol-level").innerText = volume.value
+    setVolIcon()
+    document.getElementById("preview-video").volume = parseInt(volume.value) / 100
+}
+
+const setVolIcon = () => {
     Array.from(document.getElementsByName("vol")).forEach((e) => e.classList.add("d-none"))
     if(volume.value > 50) {
         document.getElementById("volume-full").classList.remove("d-none")
@@ -28,7 +33,6 @@ volume.oninput = (e) => {
     }else{
         document.getElementById("volume-none").classList.remove("d-none")
     }
-    document.getElementById("preview-video").volume = parseInt(volume.value) / 100
 }
 
 searchbar.oninput = (e) => {
@@ -116,12 +120,12 @@ const setWallpaper = () => {
     const displayType = document.getElementById("display-select").value
     const file = image_preview.style.display == "none" ? video_preview.src : image_preview.src
     if(displayType == '0'){
-        settings.displays.forEach(disp => {
+        settings.displays.forEach((disp, i) => {
             appendWallpaper(
                 disp.id,
                 file,
                 document.getElementById("object-fit").value,
-                document.getElementById("volume").value,
+                i == 0 ? document.getElementById("volume").value : 0,
                 document.getElementById("file-name").innerText
             )
         })
@@ -187,6 +191,7 @@ const configureNewWallpaper = (file, name=null) => {
     document.getElementById("wallpaper-modal").dataset.mode = "add"
     document.getElementById("object-fit").children[0].selected = "selected"
     volume.value = "100"
+    setVolIcon()
     document.getElementById("vol-level").innerText = "100"
     wallpaperModal.show()
     window.top.postMessage({type: "meta", body: file })
@@ -211,6 +216,7 @@ const getSettingsForDisplay = (disp) => {
         document.getElementById(`preview-${fileType}`).src = settings.save.wallpapers[disp].file
         startPreview(fileType)
         volume.value = settings.save.wallpapers[disp].volume
+        setVolIcon()
         document.getElementById("vol-level").innerText = settings.save.wallpapers[disp].volume
         document.getElementById("preview-video").volume = parseInt(volume.value) / 100
         window.top.postMessage({type: "meta", body: settings.save.wallpapers[disp].file })
