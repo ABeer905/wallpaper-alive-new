@@ -70,8 +70,8 @@ BOOL CALLBACK windowState(HWND hwnd, LPARAM lParam){
         if(data.length() != 0){
           data += ", ";
         }
-        data += "{\"pos\": [" + std::to_string(win.ptMaxPosition.x) + "," + 
-          std::to_string(win.ptMaxPosition.y) + "],";
+        data += "{\"pos\": [" + std::to_string(win.rcNormalPosition.left) + "," + 
+          std::to_string(win.rcNormalPosition.top) + "],";
 
         if(win.showCmd == SW_MAXIMIZE || isWindowFullscreen(hwnd)){
           data += " \"fullscreen\": true}";

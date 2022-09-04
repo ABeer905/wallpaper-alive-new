@@ -5,7 +5,7 @@ const path = require('path')
 const { exec } = require("child_process")
 
 const stagingPath = path.join(__dirname, "publisher_staging")
-const validURLS = ["steam://store/2009120", "steam://url/SteamWorkshopPage/2009120", "https://steamcommunity.com/app/2003310/discussions", "https://github.com/arbeers1/wallpaper-alive-new"]
+const validURLS = ["steam://store/2009120", "steam://url/SteamWorkshopPage/2009120", "https://steamcommunity.com/app/2003310/discussions", "https://github.com/arbeers1/wallpaper-alive-new", "steam://url/SteamWorkshopPage/2003310"]
 var dataTypes;
 var savePath;
 
@@ -71,7 +71,7 @@ app.whenReady().then(() => {
     if(app.commandLine.getSwitchValue("dev") == "true"){
         globalResourcesDir = `${__dirname}/../static_global`
     }else{
-        globalResourcesDir = `${__dirname}/../../../../static_global`
+        globalResourcesDir = `${__dirname}/../../../static_global`
     }
     dataTypes = require(`${globalResourcesDir}/dataTypes.json`)
     savePath = `${globalResourcesDir}/.config`
@@ -222,17 +222,18 @@ const registerEventHandlers = (window, save) => {
         }
     }
     const generateThumbnail = (file, destination) => {
+        const ffmpeg = app.commandLine.getSwitchValue("dev") == "true" ? "ffmpeg\\ffmpeg" : '\"resources/app/ffmpeg/ffmpeg\"'
         const fileType = type(file)
         return new Promise((resolve) => {
             if(fileType == "video") {
-                exec(`ffmpeg\\ffmpeg -t 8 -i "${file}" -vf "fps=10,scale=200:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "${destination}\\preview.gif"`,
+                exec(`${ffmpeg} -t 8 -i "${file}" -vf "fps=10,scale=200:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "${destination}\\preview.gif"`,
                     (error, stdout, stderr) => {
                         if(error) { console.error(error); return }
                         if(stderr) { resolve(`${destination}\\preview.gif`) }
                     })
             }else if(fileType == "image"){
                 const fileEnding = file.substring(file.lastIndexOf(".") + 1)
-                exec(`ffmpeg\\ffmpeg -i "${file}" -vf scale=200:-1 "${destination}\\preview.${fileEnding}"`,
+                exec(`${ffmpeg} -i "${file}" -vf scale=200:-1 "${destination}\\preview.${fileEnding}"`,
                 (error, stdout, stderr) => {
                     if(error) { console.error(error); return }
                     if(stderr) { resolve(`${destination}\\preview.${fileEnding}`) }
@@ -241,10 +242,11 @@ const registerEventHandlers = (window, save) => {
         })
     }
     const metaData = (file) => {
+        const ffprobe = app.commandLine.getSwitchValue("dev") == "true" ? "ffmpeg\\ffprobe" : '\"resources/app/ffmpeg/ffprobe\"'
         const fileType = type(file)
         return new Promise((resolve) => {
             const meta = {type: fileType}
-            exec(`ffmpeg\\ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "${file}"`,
+            exec(`${ffprobe} -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "${file}"`,
             (error, stdout, stderr) => {
                 if(error) { console.error(error); return }
                 if(stderr) { console.error(stderr); return }
@@ -260,7 +262,7 @@ const registerEventHandlers = (window, save) => {
                 if((meta.hasOwnProperty("frameRate") && fileType == "video") ||fileType != "video") resolve(meta)
             })
             if(fileType == "video"){
-                exec(`ffmpeg\\ffprobe -v error -select_streams v -of default=noprint_wrappers=1:nokey=1 -show_entries stream=r_frame_rate "${file}"`,
+                exec(`"resources/app/ffmpeg/ffprobe" -v error -select_streams v -of default=noprint_wrappers=1:nokey=1 -show_entries stream=r_frame_rate "${file}"`,
                 (error, stdout, stderr) => {
                     if(error) { console.error(error); return }
                     if(stderr) { console.error(stderr); return }
@@ -279,7 +281,7 @@ const registerEventHandlers = (window, save) => {
     /******************APP API*******************/
     ipcMain.handle("quit", () => {
         const { execSync } = require("child_process")
-        execSync("WallpaperAlive.exe --quit=true")
+        execSync(`${__dirname}\\..\\..\\..\\wallpaper_service\\WallpaperAlive.exe --quit=true`)
         app.quit()
     })
 }

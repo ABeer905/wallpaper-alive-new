@@ -2,7 +2,6 @@ const {app, BrowserWindow, Menu, Tray, ipcMain, screen} = require("electron")
 const windows = require("./windows_service/windows.js")
 const { exec } = require("child_process")
 const fs = require("fs")
-
 const displayMap = {} //map display id to window for easy communication
 var dataTypes;
 var globalResourcesDir;
@@ -11,11 +10,13 @@ var audioPlaying
 var pauseFlag = 0
 var muteFlag = 0
 
-const lock = app.requestSingleInstanceLock
-if(!lock && app.commandLine.getSwitchValue("quit") == "true") app.quit()
-app.on('second-instance', (event, argv, workingDirectory) => {
-    if(argv.includes("--quit=true")) app.quit()
-})
+if(!app.requestSingleInstanceLock() || app.commandLine.getSwitchValue("quit") == "true"){
+    app.quit()
+}else{
+    app.on('second-instance', (event, argv, workingDirectory) => {
+        if(argv.includes("--quit=true")) app.quit()
+    })
+}
 
 const createWallpapers = (save) => {
     ipcMain.handle("getSave", e => save)
@@ -64,7 +65,7 @@ app.whenReady().then(async () => {
     if(app.commandLine.getSwitchValue("dev") == "true"){
         globalResourcesDir = `${__dirname}/../static_global`
     }else{
-        globalResourcesDir = `${__dirname}/../../../../static_global`
+        globalResourcesDir = `${__dirname}/../../../static_global`
     }
     dataTypes = require(`${globalResourcesDir}/dataTypes.json`)
 
@@ -87,6 +88,7 @@ app.whenReady().then(async () => {
 })
 
 app.on("window-all-closed", () => app.quit())
+app.on("before-quit", () => windows.quit())
 
 const loadSave = () => {
     const savePath = `${globalResourcesDir}/.config`
@@ -125,6 +127,8 @@ const listenForSaveChange = (wallpapers) => {
 const openMenu = () => {
     if(app.commandLine.getSwitchValue("dev") == "true"){
         exec("cd ../config_service & npm start", (err, stdout, stderr) => {})
+    }else{
+        exec('"../config_service/WallpaperAliveMenu.exe"', (err, stdout, stderr) => {})
     }
 }
 

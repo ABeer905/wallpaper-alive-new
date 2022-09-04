@@ -93,10 +93,6 @@
     text-overflow: ellipsis;
 }
 
-.oi{
-    z-index: 99;
-}
-
 ::-webkit-scrollbar {
     width: 12px;
 }
