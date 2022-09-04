@@ -1,11 +1,11 @@
 const {app, BrowserWindow, Menu, Tray, ipcMain, screen} = require("electron")
-const dataTypes = require("../static_global/dataTypes.json")
 const windows = require("./windows_service/windows.js")
 const { exec } = require("child_process")
 const fs = require("fs")
 
-const savePath = `${__dirname}/../.config`
 const displayMap = {} //map display id to window for easy communication
+var dataTypes;
+var globalResourcesDir;
 var appsOpen //app state of desktop
 var audioPlaying
 var pauseFlag = 0
@@ -34,7 +34,7 @@ const createWallpapers = (save) => {
             y: disp.bounds.y,
             width: disp.size.width,
             height: disp.size.height,
-            icon: `${__dirname}/../static_global/brand.ico`,
+            icon: `${globalResourcesDir}/brand.ico`,
             webPreferences: {
                 preload: `${__dirname}/preload.js`
             }
@@ -61,6 +61,13 @@ const createWallpapers = (save) => {
 
 app.enableSandbox()
 app.whenReady().then(async () => {
+    if(app.commandLine.getSwitchValue("dev") == "true"){
+        globalResourcesDir = `${__dirname}/../static_global`
+    }else{
+        globalResourcesDir = `${__dirname}/../../../../static_global`
+    }
+    dataTypes = require(`${globalResourcesDir}/dataTypes.json`)
+
     const save = await loadSave()
     createWallpapers(save)
     windows.onAppStateChange((data) => {
@@ -70,7 +77,7 @@ app.whenReady().then(async () => {
     })
     pollAudioInfo()
 
-    const tray = new Tray(`${__dirname}/../static_global/brand.ico`)
+    const tray = new Tray(`${globalResourcesDir}/brand.ico`)
     tray.setToolTip('Wallpaper Alive')
     tray.setContextMenu(Menu.buildFromTemplate([
         { label: 'Edit Wallpaper', click: e => openMenu() },
@@ -82,6 +89,7 @@ app.whenReady().then(async () => {
 app.on("window-all-closed", () => app.quit())
 
 const loadSave = () => {
+    const savePath = `${globalResourcesDir}/.config`
     return new Promise((resolve) => {
         if(fs.existsSync(savePath)){
             fs.readFile(savePath, 'utf8', (err, data) => {
@@ -104,7 +112,7 @@ const loadSave = () => {
 
 const listenForSaveChange = (wallpapers) => {
     let lastTimestamp = Date.now()
-    fs.watch(savePath, {}, e => {
+    fs.watch(`${globalResourcesDir}/.config`, {}, e => {
         if(Date.now() - lastTimestamp <= 100) return
         lastTimestamp = Date.now()
         loadSave().then(save => {

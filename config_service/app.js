@@ -1,13 +1,13 @@
 const { app, BrowserWindow, ipcMain, screen, shell } = require('electron')
-const dataTypes = require('../static_global/dataTypes.json')
 const steam = require('./build/Release/steam_service')
 const fs = require('fs')
 const path = require('path')
 const { exec } = require("child_process")
 
-const savePath = path.join(path.join(__dirname, "..", ".config"))
 const stagingPath = path.join(__dirname, "publisher_staging")
 const validURLS = ["steam://store/2009120", "steam://url/SteamWorkshopPage/2009120", "https://steamcommunity.com/app/2003310/discussions", "https://github.com/arbeers1/wallpaper-alive-new"]
+var dataTypes;
+var savePath;
 
 const lock = app.requestSingleInstanceLock()
 if(!lock) app.quit()
@@ -67,7 +67,16 @@ const createWindow = async (splashWindow) => {
 }
 
 app.enableSandbox()
-app.whenReady().then(() => createSplash())
+app.whenReady().then(() => {
+    if(app.commandLine.getSwitchValue("dev") == "true"){
+        globalResourcesDir = `${__dirname}/../static_global`
+    }else{
+        globalResourcesDir = `${__dirname}/../../../../static_global`
+    }
+    dataTypes = require(`${globalResourcesDir}/dataTypes.json`)
+    savePath = `${globalResourcesDir}/.config`
+    createSplash()
+})
 
 app.on("window-all-closed", () => app.quit())
 

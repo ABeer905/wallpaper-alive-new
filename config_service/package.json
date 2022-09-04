@@ -4,15 +4,17 @@
   "description": "Menu service",
   "main": "app.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron . --dev=true",
     "compile": "node-gyp clean configure build --verbose --arch=x64",
     "rebuild": ".\\node_modules\\.bin\\electron-rebuild.cmd",
+    "build": "electron-packager . WallpaperAliveMenu --platform=win32 --arch=x64 --icon=../static_global/brand.ico --electron-version=19.0.6 --overwrite --out=../WallpaperAlive",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "TREE.s",
   "license": "ISC",
   "devDependencies": {
     "electron": "^20.0.2",
+    "electron-packager": "^16.0.0",
     "electron-rebuild": "^3.2.9"
   },
   "dependencies": {
