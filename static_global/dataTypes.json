@@ -17,5 +17,14 @@
         "appOpen": 1,
         "soundPlay": 2,
         "noMute": 3
+    },
+    "achievements": {
+        "appOpened": "ACH_LAUNCH",
+        "wallpaperUpdated": "ACH_DESKTOP",
+        "gifWallpaper": "ACH_GIF",
+        "wallpaperPublished": "ACH_CREATOR",
+        "wallpaperInstalled": "ACH_CONSUMER",
+        "wallpaperCollection": "ACH_CONNOISSEUR",
+        "Donator": "ACH_SUPPORTER"
     }
 }

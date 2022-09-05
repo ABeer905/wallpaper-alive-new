@@ -119,14 +119,16 @@ const setAutostart = (on, save) => {
 const setWallpaper = () => {
     const displayType = document.getElementById("display-select").value
     const file = image_preview.style.display == "none" ? video_preview.src : image_preview.src
+    if(file.toLowerCase().endsWith(".gif")) window.top.postMessage({type: "ach", body: "gifWallpaper"})
     if(displayType == '0'){
-        settings.displays.forEach((disp, i) => {
+        settings.displays.forEach((disp, i, arr) => {
             appendWallpaper(
                 disp.id,
                 file,
                 document.getElementById("object-fit").value,
                 i == 0 ? document.getElementById("volume").value : 0,
-                document.getElementById("file-name").innerText
+                document.getElementById("file-name").innerText,
+                i == arr.length - 1
             )
         })
     }else{
@@ -135,12 +137,13 @@ const setWallpaper = () => {
             file,
             document.getElementById("object-fit").value,
             document.getElementById("volume").value,
-            document.getElementById("file-name").innerText
+            document.getElementById("file-name").innerText,
+            true
         )
     }
 }
 
-const appendWallpaper = (display, wallpaperFile, objectFit, volume, name) => {
+const appendWallpaper = (display, wallpaperFile, objectFit, volume, name, post) => {
     if(display == settings.primaryDisplayID){
         document.getElementById("current-wallpaper").innerText = name
     }
@@ -150,11 +153,13 @@ const appendWallpaper = (display, wallpaperFile, objectFit, volume, name) => {
         fit: objectFit,
         volume: volume
     }
-    window.top.postMessage({
-        type: "config",
-        method: "write",
-        body: settings.save
-    })
+    if(post){
+        window.top.postMessage({
+            type: "config",
+            method: "write",
+            body: settings.save
+        })
+    }
 }
 
 const nameFromFile = (file) => {
@@ -195,6 +200,7 @@ const configureNewWallpaper = (file, name=null) => {
     document.getElementById("vol-level").innerText = "100"
     wallpaperModal.show()
     window.top.postMessage({type: "meta", body: file })
+    if(name) window.top.postMessage({type: "ach", body: "wallpaperInstalled"})
 }
 
 const editWallpaper = () => {

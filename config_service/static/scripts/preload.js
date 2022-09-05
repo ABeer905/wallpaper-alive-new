@@ -21,7 +21,8 @@ contextBridge.exposeInMainWorld("meta", {
 })
 
 contextBridge.exposeInMainWorld("app", {
-    "quit": () => ipcRenderer.invoke("quit")
+    "quit": () => ipcRenderer.invoke("quit"),
+    "ach": (e) => ipcRenderer.invoke("ach", e)
 })
 
 var alertTimeout;

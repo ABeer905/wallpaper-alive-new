@@ -1,4 +1,13 @@
 const {app, BrowserWindow, Menu, Tray, ipcMain, screen} = require("electron")
+if(app.commandLine.getSwitchValue("restart") == "true") {
+    console.log(app.getPath("exe"))
+    const { execSync } = require('node:child_process');
+    execSync(`schtasks /Create /SC ONCE /TN WA /ST 23:59 /TR \"${app.getPath("exe")}\"`)
+    execSync('schtasks /Run /TN WA')
+    execSync('schtasks /Delete /TN WA /F')
+    app.exit(0);
+}
+
 const windows = require("./windows_service/windows.js")
 const { exec } = require("child_process")
 const fs = require("fs")
@@ -43,6 +52,7 @@ const createWallpapers = (save) => {
         windowToDisplay[win.id] = disp.id
         wallpapers.push(win)
 
+        win.setSize(disp.size.width, disp.size.height)
         win.loadFile("index.html")
         win.once("ready-to-show", e => {
             windows.setWallpaper(
@@ -113,10 +123,7 @@ const loadSave = () => {
 }
 
 const listenForSaveChange = (wallpapers) => {
-    let lastTimestamp = Date.now()
     fs.watch(`${globalResourcesDir}/.config`, {}, e => {
-        if(Date.now() - lastTimestamp <= 100) return
-        lastTimestamp = Date.now()
         loadSave().then(save => {
             wallpapers.forEach(w => w.webContents.send("saveUpdated", save))
             updateVideoPlayer()
@@ -128,7 +135,7 @@ const openMenu = () => {
     if(app.commandLine.getSwitchValue("dev") == "true"){
         exec("cd ../config_service & npm start", (err, stdout, stderr) => {})
     }else{
-        exec('"../config_service/WallpaperAliveMenu.exe"', (err, stdout, stderr) => {})
+        exec(`\"${__dirname}/../../../config_service/WallpaperAliveMenu.exe\"`, (err, stdout, stderr) => {})
     }
 }
 
@@ -169,7 +176,7 @@ const pollAudioInfo = (wallpapers) => {
     const muteOn = dataTypes.muteOn
     windows.initializeAudioMonitor()
     setInterval(() => {
-        if(muteFlag == muteOn.appOpenOrSoundPlay || muteFlag.soundPlay){
+        if(muteFlag == muteOn.appOpenOrSoundPlay || muteFlag == muteOn.soundPlay){
             audioPlaying = windows.isAudioPlaying()
             checkMute()
         }
@@ -190,3 +197,7 @@ const checkMute = () => {
         BrowserWindow.fromId(displayMap[display]).webContents.send("mute", shouldMute)
     }
 }
+
+process.on('uncaughtException', function(err) {
+    console.log(err);
+});

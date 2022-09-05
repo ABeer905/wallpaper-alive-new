@@ -76,9 +76,14 @@ app.whenReady().then(() => {
     dataTypes = require(`${globalResourcesDir}/dataTypes.json`)
     savePath = `${globalResourcesDir}/.config`
     createSplash()
+    steam.SteamInit()
+    steam.UnlockAchievement(dataTypes.achievements.appOpened)
 })
 
-app.on("window-all-closed", () => app.quit())
+app.on("window-all-closed", () => { 
+    steam.SteamShutdown()
+    app.quit()
+})
 
 const loadSave = () => {
     return new Promise((resolve) => {
@@ -103,6 +108,7 @@ const registerEventHandlers = (window, save) => {
     /******************SAVE API******************/
     ipcMain.handle("getSave", e => save)
     ipcMain.handle("writeSave", (e, saved_settings) => {
+        steam.UnlockAchievement(dataTypes.achievements.wallpaperUpdated)
         save.save = saved_settings
         write("Your settings were updated.")
     })
@@ -111,7 +117,7 @@ const registerEventHandlers = (window, save) => {
         const AutoLaunch = require('auto-launch');
         const wallpaperAutoStart = new AutoLaunch({
             name: 'WallpaperAlive',
-            path: path.join(__dirname, "..", "wallpaper_service", "WallpaperAlive.exe"),
+            path: path.join(__dirname, "..", "..", "..", "wallpaper_service", "WallpaperAlive.exe"),
         })
         on ? wallpaperAutoStart.enable() : wallpaperAutoStart.disable()
         write(`Autostart was turned ${on ? "on": "off"}.`)
@@ -132,6 +138,7 @@ const registerEventHandlers = (window, save) => {
             const res = steam.GetInstalledContent()
             const files = res.split("?f=").filter(element => element)
             if(files.length == 0) return false
+            if(files.length > 2) steam.UnlockAchievement(dataTypes.achievements.wallpaperCollection)
 
             await new Promise((resolve) => {
                 files.forEach((dir, index, arr) => {
@@ -189,9 +196,10 @@ const registerEventHandlers = (window, save) => {
 
         const res = steam.CreateItem(async (status_msg) => {
             if(status_msg == true){
+                steam.UnlockAchievement(dataTypes.achievements.wallpaperPublished)
                 const meta = await metaData(item.file)
-                let tags = item.tags.replace(" ", "")
-                tags = item.tags.split(",")
+                let tags = item.tags.replaceAll(" ", "")
+                tags = tags.split(",")
                 const fileID = steam.UploadItem(item.title, item.desc, tags, stage, thumbnail, meta.type, meta.res)
                 window.webContents.send("workshopStatus", ["complete", fileID])
             }else{
@@ -222,7 +230,7 @@ const registerEventHandlers = (window, save) => {
         }
     }
     const generateThumbnail = (file, destination) => {
-        const ffmpeg = app.commandLine.getSwitchValue("dev") == "true" ? "ffmpeg\\ffmpeg" : '\"resources/app/ffmpeg/ffmpeg\"'
+        const ffmpeg = app.commandLine.getSwitchValue("dev") == "true" ? "ffmpeg\\ffmpeg" : `\"${__dirname}/ffmpeg/ffmpeg\"`
         const fileType = type(file)
         return new Promise((resolve) => {
             if(fileType == "video") {
@@ -242,7 +250,7 @@ const registerEventHandlers = (window, save) => {
         })
     }
     const metaData = (file) => {
-        const ffprobe = app.commandLine.getSwitchValue("dev") == "true" ? "ffmpeg\\ffprobe" : '\"resources/app/ffmpeg/ffprobe\"'
+        const ffprobe = app.commandLine.getSwitchValue("dev") == "true" ? "ffmpeg\\ffprobe" :  `\"${__dirname}/ffmpeg/ffprobe\"`
         const fileType = type(file)
         return new Promise((resolve) => {
             const meta = {type: fileType}
@@ -262,7 +270,7 @@ const registerEventHandlers = (window, save) => {
                 if((meta.hasOwnProperty("frameRate") && fileType == "video") ||fileType != "video") resolve(meta)
             })
             if(fileType == "video"){
-                exec(`"resources/app/ffmpeg/ffprobe" -v error -select_streams v -of default=noprint_wrappers=1:nokey=1 -show_entries stream=r_frame_rate "${file}"`,
+                exec(`${ffprobe} -v error -select_streams v -of default=noprint_wrappers=1:nokey=1 -show_entries stream=r_frame_rate "${file}"`,
                 (error, stdout, stderr) => {
                     if(error) { console.error(error); return }
                     if(stderr) { console.error(stderr); return }
@@ -281,9 +289,10 @@ const registerEventHandlers = (window, save) => {
     /******************APP API*******************/
     ipcMain.handle("quit", () => {
         const { execSync } = require("child_process")
-        execSync(`${__dirname}\\..\\..\\..\\wallpaper_service\\WallpaperAlive.exe --quit=true`)
+        execSync(`\"${__dirname}/../../../wallpaper_service/WallpaperAlive.exe\" --quit=true`)
         app.quit()
     })
+    ipcMain.handle("ach", (e, ach) => steam.UnlockAchievement(dataTypes.achievements[ach]))
 }
 
 const cleanStagingDirectory = async () => {

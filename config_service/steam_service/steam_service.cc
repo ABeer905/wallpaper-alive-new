@@ -7,38 +7,23 @@ bool messageListener;
 Napi::Env env = nullptr;
 Napi::Function cb;
 PublishedFileId_t publishField; //File for publishing to workshop
-
-const char *g_Achievements[7] = { //Achievements
-  "ACH_LAUNCH",
-  "ACH_DESKTOP",
-  "ACH_GIF",
-  "ACH_CREATOR",
-  "ACH_CONSUMER",
-  "ACH_CONNOISSEUR",
-  "ACH_SUPPORTER",
-};
 UGCUpdateHandle_t updateHandle;
-
-std::vector<const char*> GetTagList(const char* resStr, const char* typeStr, int tag){
-  std::vector<const char*> tag_list;
-  tag_list.push_back(resStr);
-  tag_list.push_back(typeStr);
-  if(tag & (1<<0)) {tag_list.push_back("Miscellaneous");}
-  if(tag & (1<<1)) {tag_list.push_back("Absctract");}
-  if(tag & (1<<2)) {tag_list.push_back("Aesthetic");}
-  if(tag & (1<<3)) {tag_list.push_back("Anime");}
-  if(tag & (1<<4)) {tag_list.push_back("Fantasy");}
-  if(tag & (1<<5)) {tag_list.push_back("Games");}
-  if(tag & (1<<6)) {tag_list.push_back("NSFW");}
-  if(tag & (1<<7)) {tag_list.push_back("Outdoors");}
-  if(tag & (1<<8)) {tag_list.push_back("Pixel Graphics");}
-  if(tag & (1<<9)) {tag_list.push_back("Relaxing");}
-  if(tag & (1<<10)) {tag_list.push_back("Sci-Fi");}
-  if(tag & (1<<11)) {tag_list.push_back("Space");}
-  if(tag & (1<<12)) {tag_list.push_back("Sports");}
-  if(tag & (1<<13)) {tag_list.push_back("Vehicles");}
-  return tag_list;
-}
+const char* defaultTags[] = {
+  "Miscellaneous",
+  "Absctract",
+  "Aesthetic",
+  "Anime",
+  "Fantasy",
+  "Games",
+  "NSFW",
+  "Outdoors",
+  "Pixel Graphics",
+  "Relaxing",
+  "Sci-Fi",
+  "Space",
+  "Sports",
+  "Vehicles"
+};
 
 class CallResultManager{
   public:
@@ -89,10 +74,9 @@ void SteamShutdown(const Napi::CallbackInfo& info){
   SteamAPI_Shutdown();
 }
 
-void UnlockAchievement(const Napi::CallbackInfo& args){
-  int index = (int)args[0].As<Napi::Number>().Int32Value();
+void UnlockAchievement(const Napi::CallbackInfo& info){
   if(SteamInitialized){
-    SteamUserStats()->SetAchievement(g_Achievements[index]);
+    SteamUserStats()->SetAchievement(((std::string)info[0].As<Napi::String>()).c_str());
     SteamUserStats()->StoreStats();
   }
 }
@@ -113,10 +97,17 @@ Napi::Number UploadItem(const Napi::CallbackInfo& info){
 
   std::vector<const char*> tag_list;
   Napi::Array tags = info[2].As<Napi::Array>();
-  tag_list.push_back(((std::string)info[5].As<Napi::String>()).c_str());
-  tag_list.push_back(((std::string)info[6].As<Napi::String>()).c_str());
+  std::string type = info[5].ToString().Utf8Value();
+  std::string res = info[6].ToString().Utf8Value();
+  tag_list.push_back(type.c_str());
+  tag_list.push_back(res.c_str());
   for(size_t i = 0; i < tags.Length(); i++){
-    tag_list.push_back(Napi::Value(tags[i]).ToString().Utf8Value().c_str());
+    std::string tag = Napi::Value(tags[i]).ToString().Utf8Value();
+    for(int i = 0; i < 14; i++){
+      if(strcmp(tag.c_str(), defaultTags[i]) == 0){
+        tag_list.push_back(defaultTags[i]);
+      }
+    }
   }
   const SteamParamStringArray_t stringParams = {
     tag_list.data(),

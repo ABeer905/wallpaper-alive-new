@@ -4,6 +4,7 @@ window.addEventListener("message", e => {
     switch(e.data.type){
         case("open"):
             window.web.open(e.data.url)
+            if(e.data.url == "steam://store/2009120") window.app.ach("Donator")
             break
         case("config"):
             if(e.data.method == "get"){
@@ -29,6 +30,9 @@ window.addEventListener("message", e => {
             break
         case("meta"):
             window.meta.getInfo(e.data.body).then(res => iframe.contentWindow.postMessage({type: "meta", data: res}))
+            break
+        case("ach"):
+            window.app.ach(e.data.body)
             break
         case("quit"):
             window.app.quit()
