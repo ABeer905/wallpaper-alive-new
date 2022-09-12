@@ -111,6 +111,7 @@ const registerEventHandlers = (window, save) => {
         steam.UnlockAchievement(dataTypes.achievements.wallpaperUpdated)
         save.save = saved_settings
         write("Your settings were updated.")
+        exec(`"${path.join(__dirname, "..", "..", "..", "wallpaper_service", "WallpaperAlive.exe")}"`)
     })
     ipcMain.handle("autostart", (e, on) => {
         save.save.autostart = on
