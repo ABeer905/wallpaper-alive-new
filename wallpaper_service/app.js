@@ -1,13 +1,4 @@
-const {app, BrowserWindow, Menu, Tray, ipcMain, screen} = require("electron")
-if(app.commandLine.getSwitchValue("restart") == "true") {
-    console.log(app.getPath("exe"))
-    const { execSync } = require('node:child_process');
-    execSync(`schtasks /Create /SC ONCE /TN WA /ST 23:59 /TR \"${app.getPath("exe")}\"`)
-    execSync('schtasks /Run /TN WA')
-    execSync('schtasks /Delete /TN WA /F')
-    app.exit(0);
-}
-
+const {app, BrowserWindow, Menu, Tray, ipcMain, screen, shell} = require("electron")
 const windows = require("./windows_service/windows.js")
 const { exec } = require("child_process")
 const fs = require("fs")
@@ -18,8 +9,12 @@ var appsOpen //app state of desktop
 var audioPlaying
 var pauseFlag = 0
 var muteFlag = 0
+var noStart
 
-if(!app.requestSingleInstanceLock() || app.commandLine.getSwitchValue("quit") == "true"){
+if(app.commandLine.getSwitchValue("restart") == "true"){
+    shell.openExternal(app.getPath("exe")).then(() => app.exit(0))
+    noStart = true
+}else if(!app.requestSingleInstanceLock() || app.commandLine.getSwitchValue("quit") == "true"){
     app.quit()
 }else{
     app.on('second-instance', (event, argv, workingDirectory) => {
@@ -71,31 +66,33 @@ const createWallpapers = (save) => {
 }
 
 app.enableSandbox()
-app.whenReady().then(async () => {
-    if(app.commandLine.getSwitchValue("dev") == "true"){
-        globalResourcesDir = `${__dirname}/../static_global`
-    }else{
-        globalResourcesDir = `${__dirname}/../../../static_global`
-    }
-    dataTypes = require(`${globalResourcesDir}/dataTypes.json`)
+if (!noStart) {
+    app.whenReady().then(async () => {
+        if(app.commandLine.getSwitchValue("dev") == "true"){
+            globalResourcesDir = `${__dirname}/../static_global`
+        }else{
+            globalResourcesDir = `${__dirname}/../../../static_global`
+        }
+        dataTypes = require(`${globalResourcesDir}/dataTypes.json`)
 
-    const save = await loadSave()
-    createWallpapers(save)
-    windows.onAppStateChange((data) => {
-        const applications = JSON.parse(data)
-        appsOpen = applications
-        updateVideoPlayer()
+        const save = await loadSave()
+        createWallpapers(save)
+        windows.onAppStateChange((data) => {
+            const applications = JSON.parse(data)
+            appsOpen = applications
+            updateVideoPlayer()
+        })
+        pollAudioInfo()
+
+        const tray = new Tray(`${globalResourcesDir}/brand.ico`)
+        tray.setToolTip('Wallpaper Alive')
+        tray.setContextMenu(Menu.buildFromTemplate([
+            { label: 'Edit Wallpaper', click: e => openMenu() },
+            { label: 'Turn Off Wallpaper', click: e => app.quit() }
+        ]))
+        tray.on("click", () => tray.popUpContextMenu())
     })
-    pollAudioInfo()
-
-    const tray = new Tray(`${globalResourcesDir}/brand.ico`)
-    tray.setToolTip('Wallpaper Alive')
-    tray.setContextMenu(Menu.buildFromTemplate([
-        { label: 'Edit Wallpaper', click: e => openMenu() },
-        { label: 'Turn Off Wallpaper', click: e => app.quit() }
-    ]))
-    tray.on("click", () => tray.popUpContextMenu())
-})
+}
 
 app.on("window-all-closed", () => app.quit())
 app.on("before-quit", () => windows.quit())
