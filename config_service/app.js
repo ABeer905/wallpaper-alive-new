@@ -137,7 +137,7 @@ const registerEventHandlers = (window, save) => {
         if(steam.SteamInit()){
             const res = steam.GetInstalledContent()
             const files = res.split("?f=").filter(element => element)
-            if(files.length == 0) return false
+            if(files.length == 0) return content
             if(files.length > 2) steam.UnlockAchievement(dataTypes.achievements.wallpaperCollection)
 
             await new Promise((resolve) => {

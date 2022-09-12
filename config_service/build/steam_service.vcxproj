@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F5772FBE-8B61-C468-5AD8-5393FF1B88AE}</ProjectGuid>
+    <ProjectGuid>{F0028EF8-9D85-F793-41F3-BC19721F2165}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>steam_service</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
@@ -23,7 +23,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Locals">
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
   <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props"/>
@@ -36,6 +36,7 @@
     <ExecutablePath>$(ExecutablePath);$(MSBuildProjectDirectory)\..\bin\;$(MSBuildProjectDirectory)\..\bin\</ExecutablePath>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <IntDir>$(Configuration)\obj\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.node</TargetExt>
@@ -47,7 +48,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\theal\.electron-gyp\20.0.2\include\node;C:\Users\theal\.electron-gyp\20.0.2\src;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\theal\.electron-gyp\20.0.2\deps\uv\include;C:\Users\theal\.electron-gyp\20.0.2\deps\zlib;C:\Users\theal\.electron-gyp\20.0.2\deps\v8\include;D:\VSCodeSource\wallpaper-alive-new\config_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\include\node;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\src;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\openssl\config;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\openssl\openssl\include;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\uv\include;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\zlib;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\v8\include;C:\Users\bob the builder\wallpaper-alive-new\config_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -59,31 +60,37 @@
       <OmitFramePointers>false</OmitFramePointers>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=steam_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_ENABLE_SANDBOX;V8_SANDBOXED_POINTERS;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=steam_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <StringPooling>true</StringPooling>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWarningAsError>false</TreatWarningAsError>
       <WarningLevel>Level3</WarningLevel>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
+    <Lib>
+      <AdditionalOptions>/LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\theal\\.electron-gyp\\20.0.2\\x64\\node.lib&quot;;D:\VSCodeSource\wallpaper-alive-new\config_service\steam_service\steam_sdk\steam_api64.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4199 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\bob the builder\\AppData\\Local\\node-gyp\\Cache\\16.17.0\\x64\\node.lib&quot;;C:\Users\bob the builder\wallpaper-alive-new\config_service\steam_service\steam_sdk\steam_api64.lib</AdditionalDependencies>
+      <AdditionalOptions>/LTCG:INCREMENTAL /ignore:4199 %(AdditionalOptions)</AdditionalOptions>
       <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(ProjectName).node</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetExt>.node</TargetExt>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>C:\Users\theal\.electron-gyp\20.0.2\include\node;C:\Users\theal\.electron-gyp\20.0.2\src;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\theal\.electron-gyp\20.0.2\deps\uv\include;C:\Users\theal\.electron-gyp\20.0.2\deps\zlib;C:\Users\theal\.electron-gyp\20.0.2\deps\v8\include;D:\VSCodeSource\wallpaper-alive-new\config_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=steam_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_ENABLE_SANDBOX;V8_SANDBOXED_POINTERS;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\include\node;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\src;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\openssl\config;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\openssl\openssl\include;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\uv\include;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\zlib;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\v8\include;C:\Users\bob the builder\wallpaper-alive-new\config_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=steam_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\theal\.electron-gyp\20.0.2\include\node;C:\Users\theal\.electron-gyp\20.0.2\src;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\theal\.electron-gyp\20.0.2\deps\uv\include;C:\Users\theal\.electron-gyp\20.0.2\deps\zlib;C:\Users\theal\.electron-gyp\20.0.2\deps\v8\include;D:\VSCodeSource\wallpaper-alive-new\config_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\include\node;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\src;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\openssl\config;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\openssl\openssl\include;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\uv\include;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\zlib;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\v8\include;C:\Users\bob the builder\wallpaper-alive-new\config_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
@@ -97,27 +104,33 @@
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=steam_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_ENABLE_SANDBOX;V8_SANDBOXED_POINTERS;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=steam_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <StringPooling>true</StringPooling>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWarningAsError>false</TreatWarningAsError>
       <WarningLevel>Level3</WarningLevel>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
+    <Lib>
+      <AdditionalOptions>/LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\theal\\.electron-gyp\\20.0.2\\x64\\node.lib&quot;;D:\VSCodeSource\wallpaper-alive-new\config_service\steam_service\steam_sdk\steam_api64.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4199 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\bob the builder\\AppData\\Local\\node-gyp\\Cache\\16.17.0\\x64\\node.lib&quot;;C:\Users\bob the builder\wallpaper-alive-new\config_service\steam_service\steam_sdk\steam_api64.lib</AdditionalDependencies>
+      <AdditionalOptions>/LTCG:INCREMENTAL /ignore:4199 %(AdditionalOptions)</AdditionalOptions>
       <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(ProjectName).node</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetExt>.node</TargetExt>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>C:\Users\theal\.electron-gyp\20.0.2\include\node;C:\Users\theal\.electron-gyp\20.0.2\src;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\config;C:\Users\theal\.electron-gyp\20.0.2\deps\openssl\openssl\include;C:\Users\theal\.electron-gyp\20.0.2\deps\uv\include;C:\Users\theal\.electron-gyp\20.0.2\deps\zlib;C:\Users\theal\.electron-gyp\20.0.2\deps\v8\include;D:\VSCodeSource\wallpaper-alive-new\config_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=steam_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_ENABLE_SANDBOX;V8_SANDBOXED_POINTERS;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_REVERSE_JSARGS;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\include\node;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\src;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\openssl\config;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\openssl\openssl\include;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\uv\include;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\zlib;C:\Users\bob the builder\AppData\Local\node-gyp\Cache\16.17.0\deps\v8\include;C:\Users\bob the builder\wallpaper-alive-new\config_service\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=steam_service;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -127,19 +140,19 @@
     <ClCompile Include="..\steam_service\steam_service.cc">
       <ObjectFileName>$(IntDir)\steam_service\steam_service.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="D:\VSCodeSource\wallpaper-alive-new\config_service\node_modules\node-gyp\src\win_delay_load_hook.cc"/>
+    <ClCompile Include="C:\Users\bob the builder\wallpaper-alive-new\config_service\node_modules\node-gyp\src\win_delay_load_hook.cc"/>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\VSCodeSource\wallpaper-alive-new\config_service\steam_service\steam_sdk\steam_api64.dll">
+    <CustomBuild Include="C:\Users\bob the builder\wallpaper-alive-new\config_service\steam_service\steam_sdk\steam_api64.dll">
       <FileType>Document</FileType>
-      <Command>call mkdir &quot;D:\VSCodeSource\wallpaper-alive-new\config_service\build\Release&quot; 2&gt;nul &amp; set ERRORLEVEL=0 &amp; copy /Y &quot;D:\VSCodeSource\wallpaper-alive-new\config_service\steam_service\steam_sdk\steam_api64.dll&quot; &quot;D:\VSCodeSource\wallpaper-alive-new\config_service\build\Release\steam_api64.dll&quot;&#xD;&#xA;if %errorlevel% neq 0 exit /b %errorlevel%</Command>
-      <Message>Copying D:\VSCodeSource\wallpaper-alive-new\config_service/steam_service/steam_sdk/steam_api64.dll to D:\VSCodeSource\wallpaper-alive-new\config_service\build\Release</Message>
-      <Outputs>D:\VSCodeSource\wallpaper-alive-new\config_service\build\Release\steam_api64.dll</Outputs>
+      <Command>call mkdir &quot;C:\Users\bob the builder\wallpaper-alive-new\config_service\build\Release&quot; 2&gt;nul &amp; set ERRORLEVEL=0 &amp; copy /Y &quot;C:\Users\bob the builder\wallpaper-alive-new\config_service\steam_service\steam_sdk\steam_api64.dll&quot; &quot;C:\Users\bob the builder\wallpaper-alive-new\config_service\build\Release\steam_api64.dll&quot;&#xD;&#xA;if %errorlevel% neq 0 exit /b %errorlevel%</Command>
+      <Message>Copying C:\Users\bob the builder\wallpaper-alive-new\config_service/steam_service/steam_sdk/steam_api64.dll to C:\Users\bob the builder\wallpaper-alive-new\config_service\build\Release</Message>
+      <Outputs>C:\Users\bob the builder\wallpaper-alive-new\config_service\build\Release\steam_api64.dll</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="node_modules\node-addon-api\nothing.vcxproj">
-      <Project>{040C36FD-8FB4-267A-BFE7-A7072CB50C61}</Project>
+      <Project>{AB40DCC0-9CAA-503B-AE42-39FD29AAFAD5}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
