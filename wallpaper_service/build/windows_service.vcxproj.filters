@@ -16,22 +16,19 @@
     <Filter Include="C:\Users\bob the builder">
       <UniqueIdentifier>{A8DEE68F-221C-6820-FC06-40580B0751F8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users\bob the builder\AppData">
-      <UniqueIdentifier>{F852EB63-437C-846A-220F-8D9ED6DAEC1D}</UniqueIdentifier>
+    <Filter Include="C:\Users\bob the builder\wallpaper-alive-new">
+      <UniqueIdentifier>{F36757A2-27B4-4342-148E-AC7C8EC41325}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users\bob the builder\AppData\Roaming">
-      <UniqueIdentifier>{D51E5808-912B-5C70-4BB7-475D1DBFA067}</UniqueIdentifier>
+    <Filter Include="C:\Users\bob the builder\wallpaper-alive-new\wallpaper_service">
+      <UniqueIdentifier>{7EFB4214-601E-7F5D-5FD7-AA953C0FC3E2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users\bob the builder\AppData\Roaming\npm">
-      <UniqueIdentifier>{741E0E76-39B2-B1AB-9FA1-F1A20B16F295}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="C:\Users\bob the builder\AppData\Roaming\npm\node_modules">
+    <Filter Include="C:\Users\bob the builder\wallpaper-alive-new\wallpaper_service\node_modules">
       <UniqueIdentifier>{56DF7A98-063D-FB9D-485C-089023B4C16A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users\bob the builder\AppData\Roaming\npm\node_modules\node-gyp">
+    <Filter Include="C:\Users\bob the builder\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp">
       <UniqueIdentifier>{77348C0E-2034-7791-74D5-63C077DF5A3B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C:\Users\bob the builder\AppData\Roaming\npm\node_modules\node-gyp\src">
+    <Filter Include="C:\Users\bob the builder\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src">
       <UniqueIdentifier>{8CDEE807-BC53-E450-C8B8-4DEBB66742D4}</UniqueIdentifier>
     </Filter>
     <Filter Include="..">
@@ -42,8 +39,8 @@
     <ClCompile Include="..\windows_service\windows_service.cc">
       <Filter>..\windows_service</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\bob the builder\AppData\Roaming\npm\node_modules\node-gyp\src\win_delay_load_hook.cc">
-      <Filter>C:\Users\bob the builder\AppData\Roaming\npm\node_modules\node-gyp\src</Filter>
+    <ClCompile Include="C:\Users\bob the builder\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src\win_delay_load_hook.cc">
+      <Filter>C:\Users\bob the builder\wallpaper-alive-new\wallpaper_service\node_modules\node-gyp\src</Filter>
     </ClCompile>
     <None Include="..\binding.gyp">
       <Filter>..</Filter>

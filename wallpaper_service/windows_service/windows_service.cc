@@ -33,7 +33,6 @@ void setWallpaper(const Napi::CallbackInfo& args) {
 
   EnumWindows(isWindow, NULL);
 
-  SetWindowLong(hwnd, GWL_EXSTYLE, WS_EX_LAYERED);
   SetParent(hwnd, foundWindow);
   ScreenToClient(foundWindow, &point);
   SetWindowPos(hwnd, 0, point.x, point.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
