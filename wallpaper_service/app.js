@@ -2,7 +2,8 @@ const {app, BrowserWindow, Menu, Tray, ipcMain, screen, shell} = require("electr
 const windows = require("./windows_service/windows.js")
 const { exec } = require("child_process")
 const fs = require("fs")
-const displayMap = {} //map display id to window for easy communication
+var displayMap //map display id to window for easy communication
+var windowToDisplay; //map window id to display id
 var dataTypes;
 var globalResourcesDir;
 var appsOpen //app state of desktop
@@ -22,13 +23,19 @@ if(app.commandLine.getSwitchValue("restart") == "true"){
     })
 }
 
-const createWallpapers = (save) => {
-    ipcMain.handle("getSave", e => save)
-    ipcMain.handle("id", e => windowToDisplay[e.sender.id])
+const createWallpapers = (save, handlers=true) => {
+    for(var win of BrowserWindow.getAllWindows()){
+        win.close()
+    }
+    if(handlers){
+        ipcMain.handle("getSave", e => save)
+        ipcMain.handle("id", e => windowToDisplay[e.sender.id])
+    }
 
-    const displays = screen.getAllDisplays()
-    const windowToDisplay = {}
+    displayMap = {}
+    windowToDisplay = {}
     const wallpapers = []
+    const displays = screen.getAllDisplays()
     displays.forEach(disp => {
         disp.bounds = screen.dipToScreenRect(null, disp.bounds)
         const win = new BrowserWindow({
@@ -59,10 +66,10 @@ const createWallpapers = (save) => {
         })
     })
 
-    listenForSaveChange(wallpapers)
     Object.keys(windowToDisplay).forEach(w => {
         displayMap[windowToDisplay[w]] = parseInt(w)
     })
+    listenForSaveChange(wallpapers)
 }
 
 app.enableSandbox()
@@ -77,6 +84,10 @@ if (!noStart) {
 
         const save = await loadSave()
         createWallpapers(save)
+        screen.on('display-added', () => createWallpapers(save, handlers=false))
+        screen.on('display-removed', () => createWallpapers(save, handlers=false))
+        screen.on('display-metrics-changed', () => createWallpapers(save, handlers=false))
+
         windows.onAppStateChange((data) => {
             const applications = JSON.parse(data)
             appsOpen = applications
