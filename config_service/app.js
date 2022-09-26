@@ -224,6 +224,9 @@ const registerEventHandlers = (window, save) => {
         {
             return "script"
         }
+        else if (file.endsWith(".gif")){
+            return "gif"
+        }
         else
         {
             return "image"
@@ -239,7 +242,7 @@ const registerEventHandlers = (window, save) => {
                         if(error) { console.error(error); return }
                         if(stderr) { resolve(`${destination}\\preview.gif`) }
                     })
-            }else if(fileType == "image"){
+            }else if(fileType == "image" || fileType == "gif"){
                 const fileEnding = file.substring(file.lastIndexOf(".") + 1)
                 exec(`${ffmpeg} -i "${file}" -vf scale=350:-1 "${destination}\\preview.${fileEnding}"`,
                 (error, stdout, stderr) => {
