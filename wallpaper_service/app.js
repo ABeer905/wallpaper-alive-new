@@ -3,8 +3,9 @@ const windows = require("./windows_service/windows.js")
 const { exec } = require("child_process")
 const fs = require("fs")
 const { stdout } = require("process")
-var displayMap //map display id to window for easy communication
-var windowToDisplay; //map window id to display id
+var wallpapers = []
+var displayMap //map display id to BrowserWindow id for sending communications
+var windowToDisplay; //map webContents id to display id for recieving communications from api
 var dataTypes;
 var globalResourcesDir;
 var appsOpen //app state of desktop
@@ -46,7 +47,7 @@ const createWallpapers = (save, handlers=true) => {
 
     displayMap = {}
     windowToDisplay = {}
-    const wallpapers = []
+    wallpapers = []
     const displays = screen.getAllDisplays()
     displays.forEach(disp => {
         disp.bounds = screen.dipToScreenRect(null, disp.bounds)
@@ -63,7 +64,7 @@ const createWallpapers = (save, handlers=true) => {
                 preload: `${__dirname}/preload.js`
             }
         })
-        windowToDisplay[win.id] = disp.id
+        windowToDisplay[win.webContents.id] = disp.id
         wallpapers.push(win)
 
         win.setSize(disp.size.width, disp.size.height)
@@ -76,12 +77,9 @@ const createWallpapers = (save, handlers=true) => {
             win.show()
             //win.webContents.openDevTools()
         })
+        displayMap[disp.id] = win.id
     })
-
-    Object.keys(windowToDisplay).forEach(w => {
-        displayMap[windowToDisplay[w]] = parseInt(w)
-    })
-    listenForSaveChange(wallpapers)
+    listenForSaveChange()
 }
 
 const loadSave = () => {
@@ -117,7 +115,7 @@ app.enableSandbox()
 if (!noStart) {
     loadSave().then(save => {
         //Restart to disable hardware acceleration
-        if(!save.hwAcceleration && !app.commandLine.hasSwitch("disablehw")) {
+        if(!save.hwAcceleration && !app.commandLine.hasSwitch("disablehw") && !app.commandLine.hasSwitch("dev")) {
             app.releaseSingleInstanceLock()
             app.relaunch({ args: ["--disablehw"] })
             app.exit(0)
@@ -153,7 +151,7 @@ if (!noStart) {
 app.on("window-all-closed", () => app.quit())
 app.on("before-quit", () => windows.quit())
 
-const listenForSaveChange = (wallpapers) => {
+const listenForSaveChange = () => {
     fs.watch(`${globalResourcesDir}/.config`, {}, e => {
         loadSave().then(save => {
             wallpapers.forEach(w => w.webContents.send("saveUpdated", save))
