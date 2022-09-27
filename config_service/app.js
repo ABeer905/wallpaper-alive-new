@@ -90,7 +90,10 @@ const loadSave = () => {
         if(fs.existsSync(savePath)){
             fs.readFile(savePath, 'utf8', (err, data) => {
                 if(err) { console.error(err); return; }
-                resolve(JSON.parse(data))
+                var save = JSON.parse(data)
+                //hwAcceleration added in v1.1.0.2
+                if(!save.hasOwnProperty("hwAcceleration")) save["hwAcceleration"] = true
+                resolve(save)
             })
         }else{
             resolve(dataTypes.save)

@@ -3,6 +3,7 @@
         "wallpapers": {},
         "pauseOn": 0,
         "muteOn": 0,
+        "hwAcceleration": true,
         "autostart": false
     },
     "pauseOn": {

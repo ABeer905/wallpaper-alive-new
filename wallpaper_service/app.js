@@ -2,6 +2,7 @@ const {app, BrowserWindow, Menu, Tray, ipcMain, screen, shell} = require("electr
 const windows = require("./windows_service/windows.js")
 const { exec } = require("child_process")
 const fs = require("fs")
+const { stdout } = require("process")
 var displayMap //map display id to window for easy communication
 var windowToDisplay; //map window id to display id
 var dataTypes;
@@ -22,6 +23,17 @@ if(app.commandLine.getSwitchValue("restart") == "true"){
         if(argv.includes("--quit=true")) app.quit()
     })
 }
+
+if(app.commandLine.hasSwitch("disablehw")){
+    app.disableHardwareAcceleration()
+}
+
+if(app.commandLine.getSwitchValue("dev") == "true"){
+    globalResourcesDir = `${__dirname}/../static_global`
+}else{
+    globalResourcesDir = `${__dirname}/../../../static_global`
+}
+dataTypes = require(`${globalResourcesDir}/dataTypes.json`)
 
 const createWallpapers = (save, handlers=true) => {
     for(var win of BrowserWindow.getAllWindows()){
@@ -72,51 +84,16 @@ const createWallpapers = (save, handlers=true) => {
     listenForSaveChange(wallpapers)
 }
 
-app.enableSandbox()
-if (!noStart) {
-    app.whenReady().then(async () => {
-        if(app.commandLine.getSwitchValue("dev") == "true"){
-            globalResourcesDir = `${__dirname}/../static_global`
-        }else{
-            globalResourcesDir = `${__dirname}/../../../static_global`
-        }
-        dataTypes = require(`${globalResourcesDir}/dataTypes.json`)
-
-        const save = await loadSave()
-        createWallpapers(save)
-        screen.on('display-added', () => createWallpapers(save, handlers=false))
-        screen.on('display-removed', () => createWallpapers(save, handlers=false))
-        screen.on('display-metrics-changed', () => createWallpapers(save, handlers=false))
-
-        windows.onAppStateChange((data) => {
-            const applications = JSON.parse(data)
-            appsOpen = applications
-            updateVideoPlayer()
-        })
-        pollAudioInfo()
-
-        const tray = new Tray(`${globalResourcesDir}/brand.ico`)
-        tray.setToolTip('Wallpaper Alive')
-        tray.setContextMenu(Menu.buildFromTemplate([
-            { label: 'Edit Wallpaper', click: e => openMenu() },
-            { label: 'Turn Off Wallpaper', click: e => app.quit() }
-        ]))
-        tray.on("click", () => tray.popUpContextMenu())
-    })
-}
-
-app.on("window-all-closed", () => app.quit())
-app.on("before-quit", () => windows.quit())
-
 const loadSave = () => {
     const savePath = `${globalResourcesDir}/.config`
     return new Promise((resolve) => {
         if(fs.existsSync(savePath)){
             fs.readFile(savePath, 'utf8', (err, data) => {
                 if(err) { console.error(err); return; }
-                const save = JSON.parse(data)
+                var save = JSON.parse(data)
                 pauseFlag = save.pauseOn
                 muteFlag = save.muteOn
+                save = validateSave(save)
                 resolve(save)
             })
         }else{
@@ -129,6 +106,52 @@ const loadSave = () => {
         }
     })
 }
+
+//Verifies save is for most up to date version
+const validateSave = (save) => {
+    if(!save.hasOwnProperty("hwAcceleration")) save["hwAcceleration"] = true
+    return save
+}
+
+app.enableSandbox()
+if (!noStart) {
+    loadSave().then(save => {
+        //Restart to disable hardware acceleration
+        if(!save.hwAcceleration && !app.commandLine.hasSwitch("disablehw")) {
+            app.releaseSingleInstanceLock()
+            app.relaunch({ args: ["--disablehw"] })
+            app.exit(0)
+        }
+
+        app.whenReady().then(() => {
+            createWallpapers(save)
+            //Setup listeners for display updates
+            screen.on('display-added', () => createWallpapers(save, handlers=false))
+            screen.on('display-removed', () => createWallpapers(save, handlers=false))
+            screen.on('display-metrics-changed', () => createWallpapers(save, handlers=false))
+
+            //Setup listeners for audio state and app state
+            windows.onAppStateChange((data) => {
+                const applications = JSON.parse(data)
+                appsOpen = applications
+                updateVideoPlayer()
+            })
+            pollAudioInfo()
+
+            //Tray sub menu
+            const tray = new Tray(`${globalResourcesDir}/brand.ico`)
+            tray.setToolTip('Wallpaper Alive')
+            tray.setContextMenu(Menu.buildFromTemplate([
+                { label: 'Edit Wallpaper', click: e => openMenu() },
+                { label: 'Turn Off Wallpaper', click: e => app.quit() }
+            ]))
+            tray.on("click", () => tray.popUpContextMenu())
+        })
+    })
+}
+
+app.on("window-all-closed", () => app.quit())
+app.on("before-quit", () => windows.quit())
 
 const listenForSaveChange = (wallpapers) => {
     fs.watch(`${globalResourcesDir}/.config`, {}, e => {
